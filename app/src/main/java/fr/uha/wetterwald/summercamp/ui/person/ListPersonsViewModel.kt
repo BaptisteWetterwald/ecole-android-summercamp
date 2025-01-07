@@ -3,16 +3,16 @@ package fr.uha.wetterwald.summercamp.ui.person
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.uha.hassenforder.android.viewmodel.Result
 import fr.uha.wetterwald.summercamp.model.Person
 import fr.uha.wetterwald.summercamp.repository.PersonRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
-import javax.inject.Inject
-import fr.uha.hassenforder.android.viewmodel.Result
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class ListPersonsViewModel @Inject constructor (

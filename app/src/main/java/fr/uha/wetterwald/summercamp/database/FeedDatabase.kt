@@ -1,8 +1,8 @@
 package fr.uha.wetterwald.summercamp.database
 
 import android.net.Uri
-import fr.uha.wetterwald.summercamp.model.*
 import fr.uha.wetterwald.summercamp.R
+import fr.uha.wetterwald.summercamp.model.*
 import java.util.*
 
 class FeedDatabase (
