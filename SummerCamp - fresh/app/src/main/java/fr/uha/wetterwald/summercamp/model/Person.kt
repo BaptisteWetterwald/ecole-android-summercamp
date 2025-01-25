@@ -7,7 +7,7 @@ import androidx.room.TypeConverters
 import fr.uha.hassenforder.android.database.DatabaseTypeConverters
 
 @Entity(tableName = "persons")
-@TypeConverters(DatabaseTypeConverters::class, EnumConverters::class)
+@TypeConverters(DatabaseTypeConverters::class, Converters::class)
 data class Person(
     @PrimaryKey(autoGenerate = true)
     val personId: Long = 0,

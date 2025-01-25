@@ -111,7 +111,7 @@ class ActivityViewModel @Inject constructor (
                 is UIEvent.DurationChanged ->
                     repository.update(ActivityUpdateDTO.Duration(activityId, uiEvent.newValue))
                 is UIEvent.SpecialtyChanged ->
-                    repository.update(Specialty(activityId, uiEvent.newValue))
+                    repository.update(Specialty(activityId, fr.uha.wetterwald.summercamp.model.Specialty.valueOf(uiEvent.newValue.specialty.name)))
                 is UIEvent.AddMember ->
                     repository.addMember(activityId, uiEvent.newValue)
                 is UIEvent.RemoveMember ->

@@ -108,7 +108,7 @@ class ActivityUIValidator (private val activity : FullActivity) {
         if (validateStartDay(this@ActivityUIValidator.activity.activity.startDay) != null) return false
         if (validateStartTime(this@ActivityUIValidator.activity.activity.startTime) != null) return false
         if (validateDuration(this@ActivityUIValidator.activity.activity.duration) != null) return false
-        if (validateSpecialties(this@ActivityUIValidator.activity.activity.specialty) != null) return false
+        if (validateSpecialty(this@ActivityUIValidator.activity.activity.specialty) != null) return false
         if (validateMembers(this@ActivityUIValidator.activity.members) != null) return false
         return true
     }

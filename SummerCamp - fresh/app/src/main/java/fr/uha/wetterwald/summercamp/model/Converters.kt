@@ -1,8 +1,9 @@
 package fr.uha.wetterwald.summercamp.model
 
 import androidx.room.TypeConverter
+import fr.uha.hassenforder.android.ui.field.Time
 
-class EnumConverters {
+class Converters {
 
     companion object {
         // Conversion List<Specialty> -> String
@@ -45,5 +46,16 @@ class EnumConverters {
     @TypeConverter
     fun toGenderListForRoom(data: String?): List<Gender> {
         return toGenderList(data)
+    }
+
+    @TypeConverter
+    fun fromTime(time: Time): String {
+        return time.let { "${it.hour}:${it.minute}" }
+    }
+
+    @TypeConverter
+    fun toTime(data: String): Time {
+        val parts = data.split(":")
+        return Time(hour = parts[0].toInt(), minute = parts[1].toInt())
     }
 }

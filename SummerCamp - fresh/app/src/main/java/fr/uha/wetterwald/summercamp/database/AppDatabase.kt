@@ -19,7 +19,7 @@ import fr.uha.wetterwald.summercamp.model.*
     version = 1,
     exportSchema = false
 )
-@TypeConverters(DatabaseTypeConverters::class, EnumConverters::class)
+@TypeConverters(DatabaseTypeConverters::class, Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun personDao(): PersonDao

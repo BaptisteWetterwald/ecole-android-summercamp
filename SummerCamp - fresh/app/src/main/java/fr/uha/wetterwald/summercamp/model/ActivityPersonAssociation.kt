@@ -5,7 +5,7 @@ import androidx.room.Entity
 
 @Entity(
     tableName = "activity_person_associations",
-    primaryKeys = ["playlistId", "songId"]
+    primaryKeys = ["personId", "activityId"]
 )
 data class ActivityPersonAssociation(
     val personId: Long,

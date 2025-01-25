@@ -11,5 +11,5 @@ sealed class ActivityUpdateDTO {
     data class StartDay (val activityId : Long, val startDay : Date) : ActivityUpdateDTO()
     data class StartTime (val activityId : Long, val startTime : Time) : ActivityUpdateDTO()
     data class Duration (val activityId : Long, val duration : Int) : ActivityUpdateDTO()
-    data class Specialty (val activityId : Long, val specialty : fr.uha.wetterwald.summercamp.model.Specialty) : ActivityUpdateDTO()
+    data class Specialty (val activityId: Long, val specialty: fr.uha.wetterwald.summercamp.model.Specialty) : ActivityUpdateDTO()
 }
