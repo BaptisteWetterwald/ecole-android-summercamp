@@ -1,6 +1,5 @@
 package fr.uha.wetterwald.summercamp.ui.team
 
-import android.R.attr.text
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,15 +29,12 @@ import com.ramcosta.composedestinations.generated.destinations.EditActivityScree
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import fr.uha.hassenforder.android.icons.TimeEnd
 import fr.uha.hassenforder.android.icons.TimeStart
-import fr.uha.hassenforder.android.ui.Converter
 import fr.uha.hassenforder.android.ui.StateScreen
 import fr.uha.hassenforder.android.ui.SwipeableItem
 import fr.uha.hassenforder.android.ui.app.AppTopBar
 import fr.uha.hassenforder.android.ui.app.UITitleState
-import fr.uha.hassenforder.android.ui.field.Time
 import fr.uha.wetterwald.summercamp.R
 import fr.uha.wetterwald.summercamp.model.Activity
-import fr.uha.wetterwald.summercamp.model.Converters
 
 @Destination<RootGraph>
 @Composable
@@ -62,14 +58,14 @@ fun ListActivitiesScreen (
             modifier = Modifier.padding(innerPadding)
         ) {
             StateScreen(state = uiState) { content ->
-                SuccessListTeamsScreen(content, navigator, { vm.send (it) })
+                SuccessListActivitiesScreen(content, navigator, { vm.send (it) })
             }
         }
     }
 }
 
 @Composable
-fun SuccessListTeamsScreen (
+fun SuccessListActivitiesScreen (
     uiState: ListActivitiesViewModel.UIState,
     navigator : DestinationsNavigator,
     send : (ListActivitiesViewModel.UIEvent) -> Unit
