@@ -6,5 +6,7 @@ enum class Specialty {
     MUSIC,
     SCIENCE,
     GAMES,
-    CRAFTS
+    CRAFTS,
+    KITCHEN,
+    OTHER
 }

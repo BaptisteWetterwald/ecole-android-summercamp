@@ -69,10 +69,10 @@ class ActivityUIValidator (private val activity : FullActivity) {
     }
 
     fun validatePeriod(newValue: String) : Int? {
-        // 25/01/2025T10:00-12:00
+        // 25/01/2025 10:00-12:00
         if (newValue.isEmpty()) return R.string.date_must_set
         if (newValue.isBlank()) return R.string.date_must_set
-        val parts = newValue.split("T")
+        val parts = newValue.split(" ")
         if (parts.size != 2) return R.string.date_must_set
         val date = parts[0].split("/")
         if (date.size != 3) return R.string.date_must_set

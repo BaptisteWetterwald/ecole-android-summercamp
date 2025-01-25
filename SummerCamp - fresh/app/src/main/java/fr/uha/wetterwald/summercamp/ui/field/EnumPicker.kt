@@ -2,11 +2,13 @@ package fr.uha.wetterwald.summercamp.ui.field
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
@@ -24,7 +26,10 @@ fun <T : Enum<T>> EnumPicker(
             onDismissRequest = onDismiss,
             title = { Text(label) },
             text = {
-                Column {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = CenterHorizontally
+                ) {
                     enumValues.forEach { value ->
                         Text(
                             text = value.name,

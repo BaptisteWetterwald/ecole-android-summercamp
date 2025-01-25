@@ -70,7 +70,7 @@ private val bottomNavigations = arrayOf<BottomBarDestination>(
             focused = IconPicture(vector = Icons.Filled.Group),
             unfocused = IconPicture(vector = Icons.Outlined.Group)
         ),
-        labelId = R.string.team
+        labelId = R.string.list_activities
     ),
 
     BottomBarDestination(

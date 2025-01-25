@@ -25,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
+import com.ramcosta.composedestinations.generated.destinations.CreateActivityScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.EditActivityScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import fr.uha.hassenforder.android.icons.TimeEnd
@@ -51,7 +52,7 @@ fun ListActivitiesScreen (
         topBar = { AppTopBar(UITitleState(screenNameId = R.string.list_activities)) },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { /*navigator.navigate(CreateTeamScreenDestination)*/ },
+                onClick = { navigator.navigate(CreateActivityScreenDestination)}
             ) {
                 Icon(Icons.Filled.Add, contentDescription = "add")
             }

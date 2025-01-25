@@ -21,6 +21,17 @@ class ActivityRepository(
         return activityDao.getById(id)
     }
 
+    fun getChildrenForActivity(activityId: Long): Flow<List<Child>> {
+        return activityDao.getChildrenForActivity(activityId)
+    }
+
+    fun getSupervisorsForActivity(activityId: Long): Flow<List<Supervisor>> {
+        return activityDao.getSupervisorsForActivity(activityId)
+    }
+
+    fun getMembers(activityId: Long): Flow<List<Person>> {
+        return activityDao.getMembers(activityId)
+    }
 
     @WorkerThread
     suspend fun create(activity: Activity): Long = withContext(ioDispatcher) {
@@ -57,21 +68,6 @@ class ActivityRepository(
     @WorkerThread
     suspend fun removeMember(activityId: Long, person: Person) = withContext(ioDispatcher) {
         activityDao.deleteMember(ActivityPersonAssociation(activityId, person.personId))
-    }
-
-    @WorkerThread
-    suspend fun getChildrenForActivity(activityId: Long): Flow<List<Child>> = withContext(ioDispatcher) {
-        return@withContext activityDao.getChildrenForActivity(activityId)
-    }
-
-    @WorkerThread
-    suspend fun getSupervisorsForActivity(activityId: Long): Flow<List<Supervisor>> = withContext(ioDispatcher) {
-        return@withContext activityDao.getSupervisorsForActivity(activityId)
-    }
-
-    @WorkerThread
-    suspend fun getMembers(activityId: Long): Flow<List<Person>> = withContext(ioDispatcher) {
-        return@withContext activityDao.getMembers(activityId)
     }
 
 }

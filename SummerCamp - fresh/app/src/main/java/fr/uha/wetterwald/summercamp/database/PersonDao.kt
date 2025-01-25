@@ -1,9 +1,6 @@
 package fr.uha.wetterwald.summercamp.database
 
 import androidx.room.*
-import fr.uha.wetterwald.summercamp.model.Activity
-import fr.uha.wetterwald.summercamp.model.ActivityPersonAssociation
-import fr.uha.wetterwald.summercamp.model.FullActivity
 import fr.uha.wetterwald.summercamp.model.Person
 import kotlinx.coroutines.flow.Flow
 

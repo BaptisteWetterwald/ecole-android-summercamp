@@ -36,12 +36,6 @@ fun SuccessActivityScreen(
                 modifier = Modifier.fillMaxWidth(),
                 labelId = R.string.description,
             )
-            OutlinedTextFieldWrapper(
-                field = activity.location,
-                onValueChange = { send(ActivityViewModel.UIEvent.LocationChanged(it)) },
-                modifier = Modifier.fillMaxWidth(),
-                labelId = R.string.location,
-            )
 
             OutlinedIntFieldWrapper(
                 field = activity.maxParticipants,
