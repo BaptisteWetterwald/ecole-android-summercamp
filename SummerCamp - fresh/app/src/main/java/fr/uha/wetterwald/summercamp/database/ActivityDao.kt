@@ -51,13 +51,7 @@ interface ActivityDao {
     suspend fun update (activity: ActivityUpdateDTO.Location)
 
     @Update(entity = Activity::class)
-    suspend fun update (activity: ActivityUpdateDTO.StartDay)
-
-    @Update(entity = Activity::class)
-    suspend fun update (activity: ActivityUpdateDTO.StartTime)
-
-    @Update(entity = Activity::class)
-    suspend fun update (activity: ActivityUpdateDTO.Duration)
+    suspend fun update (activity: ActivityUpdateDTO.Period)
 
     @Update(entity = Activity::class)
     suspend fun update (activity: ActivityUpdateDTO.Specialty)

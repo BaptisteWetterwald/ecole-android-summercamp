@@ -12,14 +12,22 @@
     <string name="person">person</string>
     <string name="home">Home</string>
     <string name="settings">Settings</string>
-    <string name="list_team">List Teams</string>
+    <string name="list_activities">List Activities</string>
     <string name="team">team</string>
-    <string name="create_team">Create Team</string>
-    <string name="edit_team">Edit Team</string>
+    <string name="create_activity">Create Activity</string>
+    <string name="edit_activity">Edit Team</string>
     <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="location">Location</string>
+    <string name="max_participants">Max Participants</string>
+    <string name="period">Period</string>
+    <string name="specialty">Specialty</string>
+
     <string name="start">Start Day</string>
     <string name="duration">duration</string>
     <string name="leader">leader</string>
     <string name="members">members</string>
     <string name="picture">picture</string>
+
+    <string name="choose_specialty">Select specialty</string>
 </resources>

@@ -6,6 +6,12 @@
     <string name="phone_illegal">Phone is not usable</string>
     <string name="gender_must_set">Gender must set</string>
     <string name="date_must_set">Date must set</string>
+    <string name="day_out_of_range">Day out of range</string>
+    <string name="month_out_of_range">Month out of range</string>
+    <string name="year_out_of_range">Year out of range</string>
+    <string name="hour_out_of_range">Hour out of range</string>
+    <string name="minute_out_of_range">Minute out of range</string>
+    <string name="time_must_set">Time must set</string>
     <string name="date_too_old">Date is too old</string>
     <string name="date_too_far">Date is too far</string>
     <string name="duration_too_short">Duration too short</string>

@@ -6,7 +6,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.uha.hassenforder.android.ui.app.UITitleBuilder
 import fr.uha.hassenforder.android.ui.app.UITitleState
 import fr.uha.hassenforder.android.ui.field.FieldWrapper
-import fr.uha.hassenforder.android.ui.field.Time
 import fr.uha.hassenforder.android.viewmodel.Result
 import fr.uha.wetterwald.summercamp.database.ActivityUpdateDTO
 import fr.uha.wetterwald.summercamp.database.ActivityUpdateDTO.Specialty
@@ -17,7 +16,6 @@ import fr.uha.wetterwald.summercamp.repository.ActivityRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,9 +30,7 @@ class ActivityViewModel @Inject constructor (
         val description: FieldWrapper<String>,
         val maxParticipants: FieldWrapper<Int>,
         val location: FieldWrapper<String>,
-        val startDay: FieldWrapper<Date>,
-        val startTime: FieldWrapper<Time>,
-        val duration: FieldWrapper<Int>,
+        val period: FieldWrapper<String>,
         val specialty: FieldWrapper<fr.uha.wetterwald.summercamp.model.Specialty>,
         val members: FieldWrapper<List<Person>>,
         val activity: FullActivity,
@@ -46,12 +42,10 @@ class ActivityViewModel @Inject constructor (
                 val description = FieldWrapper(activity.activity.description, validator.validateDescription(activity.activity.description))
                 val maxParticipants = FieldWrapper(activity.activity.maxParticipants, validator.validateMaxParticipants(activity.activity.maxParticipants))
                 val location = FieldWrapper(activity.activity.location, validator.validateLocation(activity.activity.location))
-                val startDay = FieldWrapper(activity.activity.startDay, validator.validateStartDay(activity.activity.startDay))
-                val startTime = FieldWrapper(activity.activity.startTime, validator.validateStartTime(activity.activity.startTime))
-                val duration = FieldWrapper(activity.activity.duration, validator.validateDuration(activity.activity.duration))
+                val period = FieldWrapper(activity.activity.period, validator.validatePeriod(activity.activity.period))
                 val specialty = FieldWrapper(activity.activity.specialty, validator.validateSpecialty(activity.activity.specialty))
                 val members : FieldWrapper<List<Person>> = FieldWrapper(activity.members, validator.validateMembers(activity.members))
-                return UIState(name, description, maxParticipants, location, startDay, startTime, duration, specialty, members, activity)
+                return UIState(name, description, maxParticipants, location, period, specialty, members, activity)
             }
         }
     }
@@ -83,10 +77,8 @@ class ActivityViewModel @Inject constructor (
         data class DescriptionChanged(val newValue: String): UIEvent()
         data class MaxParticipantsChanged(val newValue: Int): UIEvent()
         data class LocationChanged(val newValue: String): UIEvent()
-        data class DateChanged(val newValue: Date): UIEvent()
-        data class TimeChanged(val newValue: Time): UIEvent()
-        data class DurationChanged(val newValue: Int): UIEvent()
-        data class SpecialtyChanged(val newValue: Specialty): UIEvent()
+        data class PeriodChanged(val newValue: String): UIEvent()
+        data class SpecialtyChanged(val newValue: fr.uha.wetterwald.summercamp.model.Specialty): UIEvent()
         data class AddMember(val newValue: Person): UIEvent()
         data class RemoveMember(val newValue: Person): UIEvent()
     }
@@ -104,14 +96,11 @@ class ActivityViewModel @Inject constructor (
                     repository.update(ActivityUpdateDTO.MaxParticipants(activityId, uiEvent.newValue))
                 is UIEvent.LocationChanged ->
                     repository.update(ActivityUpdateDTO.Location(activityId, uiEvent.newValue))
-                is UIEvent.DateChanged ->
-                    repository.update(ActivityUpdateDTO.StartDay(activityId, uiEvent.newValue))
-                is UIEvent.TimeChanged ->
-                    repository.update(ActivityUpdateDTO.StartTime(activityId, uiEvent.newValue))
-                is UIEvent.DurationChanged ->
-                    repository.update(ActivityUpdateDTO.Duration(activityId, uiEvent.newValue))
+                is UIEvent.PeriodChanged ->
+                    repository.update(ActivityUpdateDTO.Period(activityId, uiEvent.newValue))
                 is UIEvent.SpecialtyChanged ->
-                    repository.update(Specialty(activityId, fr.uha.wetterwald.summercamp.model.Specialty.valueOf(uiEvent.newValue.specialty.name)))
+                    repository.update(Specialty(activityId, fr.uha.wetterwald.summercamp.model.Specialty.valueOf(uiEvent.newValue.name)))
+                        //Specialty(activityId, fr.uha.wetterwald.summercamp.model.Specialty.valueOf(uiEvent.newValue.specialty.name)))
                 is UIEvent.AddMember ->
                     repository.addMember(activityId, uiEvent.newValue)
                 is UIEvent.RemoveMember ->

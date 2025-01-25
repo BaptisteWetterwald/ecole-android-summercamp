@@ -34,9 +34,7 @@ class ActivityRepository(
             is ActivityUpdateDTO.Description -> activityDao.update(update)
             is ActivityUpdateDTO.MaxParticipants -> activityDao.update(update)
             is ActivityUpdateDTO.Location -> activityDao.update(update)
-            is ActivityUpdateDTO.StartDay -> activityDao.update(update)
-            is ActivityUpdateDTO.StartTime -> activityDao.update(update)
-            is ActivityUpdateDTO.Duration -> activityDao.update(update)
+            is ActivityUpdateDTO.Period -> activityDao.update(update)
             is ActivityUpdateDTO.Specialty -> activityDao.update(update)
         }
     }

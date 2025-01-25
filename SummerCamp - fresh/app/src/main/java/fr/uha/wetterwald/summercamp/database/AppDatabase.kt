@@ -31,7 +31,9 @@ abstract class AppDatabase : RoomDatabase() {
         private lateinit var instance : AppDatabase
 
         fun create (context : Context) : AppDatabase {
-            instance = Room.databaseBuilder(context, AppDatabase::class.java, "summer-camp.db").build()
+            instance = Room.databaseBuilder(context, AppDatabase::class.java, "summer-camp.db")
+                .fallbackToDestructiveMigration()
+                .build()
             return instance
         }
 

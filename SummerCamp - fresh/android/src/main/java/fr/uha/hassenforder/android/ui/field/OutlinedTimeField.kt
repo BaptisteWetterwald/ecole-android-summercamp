@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.uha.hassenforder.android.R
 import fr.uha.hassenforder.android.ui.Converter
@@ -28,7 +29,11 @@ data class Time (
     val reference : Date = Date(),
     val hour : Int = 0,
     val minute : Int = 0,
-)
+){
+    override fun toString(): String {
+        return "$hour:$minute"
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 private fun timeValidator (
@@ -159,5 +164,14 @@ fun OutlinedTimeFieldWrapper(
         labelId = labelId,
         errorId = field.errorId,
         hintId = hintId,
+    )
+}
+
+@Composable
+@Preview(showBackground = true)
+fun OutlinedTimeFieldPreview() {
+    OutlinedTimeFieldWrapper(
+        field = FieldWrapper(Time()),
+        onValueChange = { },
     )
 }

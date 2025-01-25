@@ -30,14 +30,14 @@ fun SettingsScreen (
         ) {
             Button(
                 onClick = {
-//                    vm.onClear()
+                    vm.onClear()
                 }
             ) {
                 Text("Clear")
             }
             Button(
                 onClick = {
-//                    vm.onFill()
+                    vm.onFill()
                     Log.d("SettingsScreen", "onFill")
                 }
             ) {

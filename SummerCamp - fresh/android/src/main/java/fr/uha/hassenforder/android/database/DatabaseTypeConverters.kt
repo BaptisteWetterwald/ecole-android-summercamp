@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.room.TypeConverter
+import fr.uha.hassenforder.android.ui.field.Time
 import java.io.ByteArrayOutputStream
 import java.time.Instant
 import java.util.*
