@@ -18,8 +18,6 @@ import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.generated.NavGraphs
 import com.ramcosta.composedestinations.generated.destinations.GreetingScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.ListPersonsScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.ListTeamsScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SettingsScreenDestination
 import fr.uha.hassenforder.android.model.IconPicture
 import fr.uha.hassenforder.android.model.IconRender
@@ -27,7 +25,6 @@ import fr.uha.hassenforder.android.ui.app.AppBottomBar
 import fr.uha.hassenforder.android.ui.app.BottomBarDestination
 import fr.uha.wetterwald.summercamp.R
 
-@Preview
 @Composable
 fun SummerCampAppScreen(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
@@ -57,22 +54,23 @@ private val bottomNavigations = arrayOf<BottomBarDestination>(
         ),
         labelId = R.string.home
     ),
-    BottomBarDestination(
-        direction = ListPersonsScreenDestination,
-        icon = IconRender(
-            focused = IconPicture(vector = Icons.Filled.Person),
-            unfocused = IconPicture(vector = Icons.Outlined.Person)
-        ),
-        labelId = R.string.person
-    ),
-    BottomBarDestination(
-        direction = ListTeamsScreenDestination,
-        icon = IconRender(
-            focused = IconPicture(vector = Icons.Filled.Group),
-            unfocused = IconPicture(vector = Icons.Outlined.Group)
-        ),
-        labelId = R.string.team
-    ),
+//    BottomBarDestination(
+//        direction = ListPersonsScreenDestination,
+//        icon = IconRender(
+//            focused = IconPicture(vector = Icons.Filled.Person),
+//            unfocused = IconPicture(vector = Icons.Outlined.Person)
+//        ),
+//        labelId = R.string.person
+//    ),
+//    BottomBarDestination(
+//        direction = ListTeamsScreenDestination,
+//        icon = IconRender(
+//            focused = IconPicture(vector = Icons.Filled.Group),
+//            unfocused = IconPicture(vector = Icons.Outlined.Group)
+//        ),
+//        labelId = R.string.team
+//    ),
+
     BottomBarDestination(
         direction = SettingsScreenDestination,
         icon = IconRender(

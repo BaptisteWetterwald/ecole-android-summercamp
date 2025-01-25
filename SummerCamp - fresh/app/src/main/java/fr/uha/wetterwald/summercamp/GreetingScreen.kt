@@ -19,7 +19,6 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 
 @Destination<RootGraph>(start = true)
-@Preview(showBackground = true)
 @Composable
 fun GreetingScreen() {
 

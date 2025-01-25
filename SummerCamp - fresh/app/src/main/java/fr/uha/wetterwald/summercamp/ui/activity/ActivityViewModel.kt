@@ -1,0 +1,133 @@
+package fr.uha.wetterwald.summercamp.ui.activity
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.uha.hassenforder.android.ui.app.UITitleBuilder
+import fr.uha.hassenforder.android.ui.app.UITitleState
+import fr.uha.hassenforder.android.ui.field.FieldWrapper
+import fr.uha.hassenforder.android.ui.field.Time
+import fr.uha.hassenforder.android.viewmodel.Result
+import fr.uha.wetterwald.summercamp.database.ActivityUpdateDTO
+import fr.uha.wetterwald.summercamp.database.ActivityUpdateDTO.Specialty
+import fr.uha.wetterwald.summercamp.model.Activity
+import fr.uha.wetterwald.summercamp.model.FullActivity
+import fr.uha.wetterwald.summercamp.model.Person
+import fr.uha.wetterwald.summercamp.repository.ActivityRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import java.util.Date
+import javax.inject.Inject
+
+@HiltViewModel
+class ActivityViewModel @Inject constructor (
+    private val repository: ActivityRepository
+): ViewModel() {
+
+    private val _id: MutableStateFlow<Long> = MutableStateFlow(0)
+
+    data class UIState(
+        val name: FieldWrapper<String>,
+        val description: FieldWrapper<String>,
+        val maxParticipants: FieldWrapper<Int>,
+        val location: FieldWrapper<String>,
+        val startDay: FieldWrapper<Date>,
+        val startTime: FieldWrapper<Time>,
+        val duration: FieldWrapper<Int>,
+        val specialty: FieldWrapper<fr.uha.wetterwald.summercamp.model.Specialty>,
+        val members: FieldWrapper<List<Person>>,
+        val activity: FullActivity,
+    ) {
+        companion object {
+            fun create (activity : FullActivity) : UIState {
+                val validator = ActivityUIValidator(activity)
+                val name = FieldWrapper(activity.activity.name, validator.validateName(activity.activity.name))
+                val description = FieldWrapper(activity.activity.description, validator.validateDescription(activity.activity.description))
+                val maxParticipants = FieldWrapper(activity.activity.maxParticipants, validator.validateMaxParticipants(activity.activity.maxParticipants))
+                val location = FieldWrapper(activity.activity.location, validator.validateLocation(activity.activity.location))
+                val startDay = FieldWrapper(activity.activity.startDay, validator.validateStartDay(activity.activity.startDay))
+                val startTime = FieldWrapper(activity.activity.startTime, validator.validateStartTime(activity.activity.startTime))
+                val duration = FieldWrapper(activity.activity.duration, validator.validateDuration(activity.activity.duration))
+                val specialty = FieldWrapper(activity.activity.specialty, validator.validateSpecialty(activity.activity.specialty))
+                val members : FieldWrapper<List<Person>> = FieldWrapper(activity.members, validator.validateMembers(activity.members))
+                return UIState(name, description, maxParticipants, location, startDay, startTime, duration, specialty, members, activity)
+            }
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val uiState : StateFlow<Result<UIState>> = _id
+        .flatMapLatest { id -> repository.getActivityById(id) }
+        .map { activity ->
+            if (activity != null)
+                Result.Success(UIState.create(activity))
+            else Result.Error()
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = Result.Loading
+        )
+
+    val titleBuilder = UITitleBuilder()
+
+    val uiTitleState : StateFlow<UITitleState> = titleBuilder.uiTitleState.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = UITitleState()
+    )
+
+    sealed class UIEvent {
+        data class NameChanged(val newValue: String): UIEvent()
+        data class DescriptionChanged(val newValue: String): UIEvent()
+        data class MaxParticipantsChanged(val newValue: Int): UIEvent()
+        data class LocationChanged(val newValue: String): UIEvent()
+        data class DateChanged(val newValue: Date): UIEvent()
+        data class TimeChanged(val newValue: Time): UIEvent()
+        data class DurationChanged(val newValue: Int): UIEvent()
+        data class SpecialtyChanged(val newValue: Specialty): UIEvent()
+        data class AddMember(val newValue: Person): UIEvent()
+        data class RemoveMember(val newValue: Person): UIEvent()
+    }
+
+    fun send (uiEvent : UIEvent) {
+        viewModelScope.launch {
+            if (uiState.value !is Result.Success) return@launch
+            val activityId = (uiState.value as Result.Success<UIState>).content.activity.activity.activityId
+            when (uiEvent) {
+                is UIEvent.NameChanged ->
+                    repository.update(ActivityUpdateDTO.Name(activityId, uiEvent.newValue))
+                is UIEvent.DescriptionChanged ->
+                    repository.update(ActivityUpdateDTO.Description(activityId, uiEvent.newValue))
+                is UIEvent.MaxParticipantsChanged ->
+                    repository.update(ActivityUpdateDTO.MaxParticipants(activityId, uiEvent.newValue))
+                is UIEvent.LocationChanged ->
+                    repository.update(ActivityUpdateDTO.Location(activityId, uiEvent.newValue))
+                is UIEvent.DateChanged ->
+                    repository.update(ActivityUpdateDTO.StartDay(activityId, uiEvent.newValue))
+                is UIEvent.TimeChanged ->
+                    repository.update(ActivityUpdateDTO.StartTime(activityId, uiEvent.newValue))
+                is UIEvent.DurationChanged ->
+                    repository.update(ActivityUpdateDTO.Duration(activityId, uiEvent.newValue))
+                is UIEvent.SpecialtyChanged ->
+                    repository.update(Specialty(activityId, uiEvent.newValue))
+                is UIEvent.AddMember ->
+                    repository.addMember(activityId, uiEvent.newValue)
+                is UIEvent.RemoveMember ->
+                    repository.removeMember(activityId, uiEvent.newValue)
+                else -> {}
+            }
+        }
+    }
+
+    fun edit (id : Long) = viewModelScope.launch {
+        _id.value = id
+    }
+
+    fun create(activity: Activity) = viewModelScope.launch {
+        val id : Long = repository.create(activity)
+        _id.value = id
+    }
+
+}

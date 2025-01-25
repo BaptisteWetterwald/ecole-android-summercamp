@@ -6,7 +6,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import fr.uha.wetterwald.summercamp.database.ActivityDao
 import fr.uha.wetterwald.summercamp.database.AppDatabase
+import fr.uha.wetterwald.summercamp.repository.ActivityRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -47,11 +49,11 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideActivitySupervisorAssociationDao(db: AppDatabase) = db.activitySupervisorAssociationDao()
+    fun provideActivityRepository(
+        activityDao: ActivityDao,
+        ioDispatcher: CoroutineDispatcher
+    ) = ActivityRepository(activityDao, ioDispatcher)
 
-    @Singleton
-    @Provides
-    fun provideActivityChildAssociationDao(db: AppDatabase) = db.activityChildAssociationDao()
 
     /*
     @Singleton

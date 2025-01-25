@@ -14,20 +14,18 @@ import fr.uha.wetterwald.summercamp.model.*
         Supervisor::class,
         Child::class,
         Activity::class,
-        ActivitySupervisorAssociation::class,
-        ActivityChildAssociation::class
+        ActivityPersonAssociation::class
     ],
     version = 1,
     exportSchema = false
 )
 @TypeConverters(DatabaseTypeConverters::class, EnumConverters::class)
 abstract class AppDatabase : RoomDatabase() {
+
     abstract fun personDao(): PersonDao
     abstract fun supervisorDao(): SupervisorDao
     abstract fun childDao(): ChildDao
     abstract fun activityDao(): ActivityDao
-    abstract fun activitySupervisorAssociationDao(): ActivitySupervisorAssociationDao
-    abstract fun activityChildAssociationDao(): ActivityChildAssociationDao
 
     companion object {
         private lateinit var instance : AppDatabase

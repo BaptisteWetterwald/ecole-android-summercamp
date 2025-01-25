@@ -10,15 +10,15 @@ interface SupervisorDao {
     @Query("SELECT * FROM supervisors")
     fun getAll(): Flow<List<Supervisor>>
 
-    @Query("SELECT * FROM supervisors WHERE id = :id")
+    @Query("SELECT * FROM supervisors WHERE supervisorId = :id")
     fun getById(id: Long): Flow<Supervisor?>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(supervisor: Supervisor): Long
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    fun create(supervisor: Supervisor): Long
 
-    @Update
-    suspend fun update(supervisor: Supervisor)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun update(supervisor: Supervisor)
 
     @Delete
-    suspend fun delete(supervisor: Supervisor)
+    fun delete(supervisor: Supervisor)
 }
