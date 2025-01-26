@@ -30,6 +30,7 @@ fun SuccessActivityScreen(
                 modifier = Modifier.fillMaxWidth(),
                 labelId = R.string.name,
             )
+
             OutlinedTextFieldWrapper(
                 field = activity.description,
                 onValueChange = { send(ActivityViewModel.UIEvent.DescriptionChanged(it)) },

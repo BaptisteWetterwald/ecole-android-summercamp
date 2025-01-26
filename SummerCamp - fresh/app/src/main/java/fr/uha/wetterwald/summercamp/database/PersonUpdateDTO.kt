@@ -1,6 +1,7 @@
 package fr.uha.wetterwald.summercamp.database
 
 import android.net.Uri
+import fr.uha.wetterwald.summercamp.database.ActivityUpdateDTO.Specialty
 
 sealed class PersonUpdateDTO {
     data class Firstname(val personId: Long, val firstname: String) : PersonUpdateDTO()
@@ -13,6 +14,6 @@ sealed class PersonUpdateDTO {
 
     // Champs spécifiques à Supervisor
     data class Phone(val personId: Long, val phone: String) : PersonUpdateDTO()
-    data class Specialties(val personId: Long, val specialties: List<fr.uha.wetterwald.summercamp.model.Specialty>) : PersonUpdateDTO()
+    data class Specialties(val personId: Long, val specialties: List<Specialty>) : PersonUpdateDTO()
     data class Availability(val personId: Long, val availability: String) : PersonUpdateDTO()
 }

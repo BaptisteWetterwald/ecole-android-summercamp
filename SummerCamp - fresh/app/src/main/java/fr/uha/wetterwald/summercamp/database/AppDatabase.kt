@@ -23,8 +23,6 @@ import fr.uha.wetterwald.summercamp.model.*
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun personDao(): PersonDao
-    abstract fun supervisorDao(): SupervisorDao
-    abstract fun childDao(): ChildDao
     abstract fun activityDao(): ActivityDao
 
     companion object {

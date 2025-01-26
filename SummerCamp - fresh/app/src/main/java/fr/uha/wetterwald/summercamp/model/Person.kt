@@ -8,7 +8,7 @@ import fr.uha.hassenforder.android.database.DatabaseTypeConverters
 
 @Entity(tableName = "persons")
 @TypeConverters(DatabaseTypeConverters::class, Converters::class)
-data class Person(
+open class Person(
     @PrimaryKey(autoGenerate = true)
     val personId: Long = 0,
     var firstname: String,

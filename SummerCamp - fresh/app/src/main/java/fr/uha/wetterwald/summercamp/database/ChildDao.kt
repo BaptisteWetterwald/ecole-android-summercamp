@@ -26,7 +26,7 @@ interface ChildDao {
     fun getAll(): Flow<List<Child>>
 
     @Query("""
-        SELECT * FROM children 
+        SELECT * FROM children
         WHERE childId IN (SELECT personId FROM activity_person_associations WHERE activityId = :activityId)
     """)
     fun getChildrenForActivity(activityId: Long): Flow<List<Child>>
