@@ -18,7 +18,7 @@ class ActivityRepository(
     }
 
     fun getActivityById(id: Long): Flow<FullActivity?> {
-        return activityDao.getById(id)
+        return activityDao.getFullActivityById(id)
     }
 
     fun getChildrenForActivity(activityId: Long): Flow<List<Child>> {
@@ -27,15 +27,6 @@ class ActivityRepository(
 
     fun getSupervisorsForActivity(activityId: Long): Flow<List<Supervisor>> {
         return activityDao.getSupervisorsForActivity(activityId)
-    }
-
-    fun getMembers(activityId: Long): Flow<List<Person>> {
-        return activityDao.getMembers(activityId)
-    }
-
-    @WorkerThread
-    suspend fun create(activity: Activity): Long = withContext(ioDispatcher) {
-        return@withContext activityDao.create(activity)
     }
 
     @WorkerThread
@@ -51,6 +42,11 @@ class ActivityRepository(
     }
 
     @WorkerThread
+    suspend fun create(activity: Activity): Long = withContext(ioDispatcher) {
+        return@withContext activityDao.create(activity)
+    }
+
+    @WorkerThread
     suspend fun upsert(activity: Activity): Long = withContext(ioDispatcher) {
         return@withContext activityDao.update(activity)
     }
@@ -61,13 +57,23 @@ class ActivityRepository(
     }
 
     @WorkerThread
-    suspend fun addMember(activityId: Long, person: Person) = withContext(ioDispatcher) {
-        activityDao.addMember(ActivityPersonAssociation(activityId, person.personId))
+    suspend fun addSupervisor(activityId: Long, supervisor: Supervisor) = withContext(ioDispatcher) {
+        activityDao.addSupervisor(ActivitySupervisorAssociation(supervisor.supervisorId, activityId))
     }
 
     @WorkerThread
-    suspend fun removeMember(activityId: Long, person: Person) = withContext(ioDispatcher) {
-        activityDao.deleteMember(ActivityPersonAssociation(activityId, person.personId))
+    suspend fun removeSupervisor(activityId: Long, supervisor: Supervisor) = withContext(ioDispatcher) {
+        activityDao.deleteSupervisor(ActivitySupervisorAssociation(supervisor.supervisorId, activityId))
+    }
+
+    @WorkerThread
+    suspend fun addChild(activityId: Long, child: Child) = withContext(ioDispatcher) {
+        activityDao.addChild(ActivityChildAssociation(child.childId, activityId))
+    }
+
+    @WorkerThread
+    suspend fun removeChild(activityId: Long, child: Child) = withContext(ioDispatcher) {
+        activityDao.deleteChild(ActivityChildAssociation(child.childId, activityId))
     }
 
 }

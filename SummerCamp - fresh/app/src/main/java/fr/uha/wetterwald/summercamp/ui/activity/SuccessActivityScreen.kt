@@ -77,7 +77,8 @@ fun SuccessActivityScreen(
                 onRemoveMember = { send(ActivityViewModel.UIEvent.RemoveMember(it)) },
                 modifier = Modifier.fillMaxWidth(),
                 labelId = R.string.members,
-            )*/
+            )
+            */
         }
     }
 }

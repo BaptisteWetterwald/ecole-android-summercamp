@@ -1,7 +1,6 @@
 package fr.uha.wetterwald.summercamp.model
 
 import androidx.room.TypeConverter
-import kotlinx.coroutines.flow.Flow
 
 class Converters {
 
@@ -15,7 +14,6 @@ class Converters {
         }
     }
 
-    // Room TypeConverter annotations for lists
     @TypeConverter
     fun fromSpecialtyListForRoom(specialties: List<Specialty>?): String? {
         return fromSpecialtyList(specialties)

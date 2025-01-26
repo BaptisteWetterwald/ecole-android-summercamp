@@ -12,7 +12,7 @@ interface ActivityDao {
 
     @Transaction
     @Query("SELECT * from activities WHERE activityId = :id")
-    fun getById(id: Long): Flow<FullActivity?>
+    fun getFullActivityById(id: Long): Flow<FullActivity?>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun create(activity: Activity): Long
@@ -23,20 +23,23 @@ interface ActivityDao {
     @Delete
     fun delete(activity: Activity)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun addMember(assoc: ActivityPersonAssociation) : Long
-
-    @Delete
-    fun deleteMember(assoc: ActivityPersonAssociation)
-
-    @Query("SELECT * from children WHERE childId IN (SELECT personId FROM activity_person_associations WHERE activityId = :activityId)")
+    @Query("SELECT * from children WHERE childId IN (SELECT childId FROM activity_children WHERE activityId = :activityId)")
     fun getChildrenForActivity(activityId: Long): Flow<List<Child>>
 
-    @Query("SELECT * from supervisors WHERE supervisorId IN (SELECT personId FROM activity_person_associations WHERE activityId = :activityId)")
+    @Query("SELECT * from supervisors WHERE supervisorId IN (SELECT supervisorId FROM activity_supervisors WHERE activityId = :activityId)")
     fun getSupervisorsForActivity(activityId: Long): Flow<List<Supervisor>>
 
-    @Query("SELECT * from persons WHERE personId IN (SELECT personId FROM activity_person_associations WHERE activityId = :activityId)")
-    fun getMembers(activityId: Long): Flow<List<Person>>
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addSupervisor(assoc: ActivitySupervisorAssociation)
+
+    @Delete
+    suspend fun deleteSupervisor(assoc: ActivitySupervisorAssociation)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addChild(assoc: ActivityChildAssociation)
+
+    @Delete
+    suspend fun deleteChild(assoc: ActivityChildAssociation)
 
     @Update(entity = Activity::class)
     suspend fun update (activity: ActivityUpdateDTO.Name)

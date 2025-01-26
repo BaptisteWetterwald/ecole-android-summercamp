@@ -10,11 +10,11 @@ import fr.uha.wetterwald.summercamp.model.*
 
 @Database(
     entities = [
-        Person::class,
-        Supervisor::class,
         Child::class,
+        Supervisor::class,
         Activity::class,
-        ActivityPersonAssociation::class
+        ActivityChildAssociation::class,
+        ActivitySupervisorAssociation::class
     ],
     version = 1,
     exportSchema = false
@@ -22,7 +22,8 @@ import fr.uha.wetterwald.summercamp.model.*
 @TypeConverters(DatabaseTypeConverters::class, Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun personDao(): PersonDao
+    abstract fun childDao(): ChildDao
+    abstract fun supervisorDao(): SupervisorDao
     abstract fun activityDao(): ActivityDao
 
     companion object {

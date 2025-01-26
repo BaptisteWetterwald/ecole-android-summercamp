@@ -8,6 +8,17 @@ data class FullActivity(
     @Embedded
     val activity: Activity,
 
-    @Relation(parentColumn = "activityId", entityColumn = "personId", associateBy = Junction(ActivityPersonAssociation::class))
-    val members : List<Person>
+    @Relation(
+        parentColumn = "activityId",
+        entityColumn = "childId",
+        associateBy = Junction(ActivityChildAssociation::class)
+    )
+    val children: List<Child>,
+
+    @Relation(
+        parentColumn = "activityId",
+        entityColumn = "supervisorId",
+        associateBy = Junction(ActivitySupervisorAssociation::class)
+    )
+    val supervisors: List<Supervisor>
 )

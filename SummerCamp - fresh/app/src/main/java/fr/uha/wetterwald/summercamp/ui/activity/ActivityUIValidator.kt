@@ -1,9 +1,10 @@
 package fr.uha.wetterwald.summercamp.ui.activity
 
 import fr.uha.wetterwald.summercamp.R
+import fr.uha.wetterwald.summercamp.model.Child
 import fr.uha.wetterwald.summercamp.model.FullActivity
-import fr.uha.wetterwald.summercamp.model.Person
 import fr.uha.wetterwald.summercamp.model.Specialty
+import fr.uha.wetterwald.summercamp.model.Supervisor
 
 class ActivityUIValidator (private val activity : FullActivity) {
 
@@ -49,7 +50,14 @@ class ActivityUIValidator (private val activity : FullActivity) {
         }
     }
 
-    fun validateMembers(newValue: List<Person>) : Int? {
+    fun validateChildren(newValue: List<Child>) : Int? {
+        return when {
+            newValue.isEmpty() ->  R.string.value_empty
+            else -> null
+        }
+    }
+
+    fun validateSupervisors(newValue: List<Supervisor>) : Int? {
         return when {
             newValue.isEmpty() ->  R.string.value_empty
             else -> null
@@ -105,7 +113,8 @@ class ActivityUIValidator (private val activity : FullActivity) {
         if (validateLocation(this@ActivityUIValidator.activity.activity.location) != null) return false
         if (validatePeriod(this@ActivityUIValidator.activity.activity.period) != null) return false
         if (validateSpecialty(this@ActivityUIValidator.activity.activity.specialty) != null) return false
-        if (validateMembers(this@ActivityUIValidator.activity.members) != null) return false
+        if (validateChildren(this@ActivityUIValidator.activity.children) != null) return false
+        if (validateSupervisors(this@ActivityUIValidator.activity.supervisors) != null) return false
         return true
     }
 

@@ -9,8 +9,9 @@ import fr.uha.hassenforder.android.viewmodel.Result
 import fr.uha.wetterwald.summercamp.database.ActivityUpdateDTO
 import fr.uha.wetterwald.summercamp.database.ActivityUpdateDTO.Specialty
 import fr.uha.wetterwald.summercamp.model.Activity
+import fr.uha.wetterwald.summercamp.model.Child
 import fr.uha.wetterwald.summercamp.model.FullActivity
-import fr.uha.wetterwald.summercamp.model.Person
+import fr.uha.wetterwald.summercamp.model.Supervisor
 import fr.uha.wetterwald.summercamp.repository.ActivityRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -31,7 +32,8 @@ class ActivityViewModel @Inject constructor (
         val location: FieldWrapper<String>,
         val period: FieldWrapper<String>,
         val specialty: FieldWrapper<fr.uha.wetterwald.summercamp.model.Specialty>,
-        val members: FieldWrapper<List<Person>>,
+        val children: FieldWrapper<List<Child>>,
+        val supervisors: FieldWrapper<List<Supervisor>>,
         val activity: FullActivity,
     ) {
         companion object {
@@ -43,8 +45,9 @@ class ActivityViewModel @Inject constructor (
                 val location = FieldWrapper(activity.activity.location, validator.validateLocation(activity.activity.location))
                 val period = FieldWrapper(activity.activity.period, validator.validatePeriod(activity.activity.period))
                 val specialty = FieldWrapper(activity.activity.specialty, validator.validateSpecialty(activity.activity.specialty))
-                val members : FieldWrapper<List<Person>> = FieldWrapper(activity.members, validator.validateMembers(activity.members))
-                return UIState(name, description, maxParticipants, location, period, specialty, members, activity)
+                val children = FieldWrapper(activity.children, validator.validateChildren(activity.children))
+                val supervisors = FieldWrapper(activity.supervisors, validator.validateSupervisors(activity.supervisors))
+                return UIState(name, description, maxParticipants, location, period, specialty, children, supervisors, activity)
             }
         }
     }
@@ -72,8 +75,10 @@ class ActivityViewModel @Inject constructor (
         data class LocationChanged(val newValue: String): UIEvent()
         data class PeriodChanged(val newValue: String): UIEvent()
         data class SpecialtyChanged(val newValue: fr.uha.wetterwald.summercamp.model.Specialty): UIEvent()
-        data class AddMember(val newValue: Person): UIEvent()
-        data class RemoveMember(val newValue: Person): UIEvent()
+        data class AddChild(val newValue: Child): UIEvent()
+        data class RemoveChild(val newValue: Child): UIEvent()
+        data class AddSupervisor(val newValue: Supervisor): UIEvent()
+        data class RemoveSupervisor(val newValue: Supervisor): UIEvent()
     }
 
     fun send (uiEvent : UIEvent) {
@@ -93,10 +98,14 @@ class ActivityViewModel @Inject constructor (
                     repository.update(ActivityUpdateDTO.Period(activityId, uiEvent.newValue))
                 is UIEvent.SpecialtyChanged ->
                     repository.update(Specialty(activityId, fr.uha.wetterwald.summercamp.model.Specialty.valueOf(uiEvent.newValue.name)))
-                is UIEvent.AddMember ->
-                    repository.addMember(activityId, uiEvent.newValue)
-                is UIEvent.RemoveMember ->
-                    repository.removeMember(activityId, uiEvent.newValue)
+                is UIEvent.AddChild ->
+                    repository.addChild(activityId, uiEvent.newValue)
+                is UIEvent.RemoveChild ->
+                    repository.removeChild(activityId, uiEvent.newValue)
+                is UIEvent.AddSupervisor ->
+                    repository.addSupervisor(activityId, uiEvent.newValue)
+                is UIEvent.RemoveSupervisor ->
+                    repository.removeSupervisor(activityId, uiEvent.newValue)
                 else -> {}
             }
         }
