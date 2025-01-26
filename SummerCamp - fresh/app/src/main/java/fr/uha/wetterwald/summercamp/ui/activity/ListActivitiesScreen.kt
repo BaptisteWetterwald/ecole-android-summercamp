@@ -35,6 +35,7 @@ import fr.uha.hassenforder.android.ui.app.AppTopBar
 import fr.uha.hassenforder.android.ui.app.UITitleState
 import fr.uha.wetterwald.summercamp.R
 import fr.uha.wetterwald.summercamp.model.Activity
+import fr.uha.wetterwald.summercamp.ui.activity.ListActivitiesViewModel
 
 @Destination<RootGraph>
 @Composable

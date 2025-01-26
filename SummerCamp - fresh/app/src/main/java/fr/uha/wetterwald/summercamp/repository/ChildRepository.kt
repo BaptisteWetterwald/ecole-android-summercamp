@@ -22,6 +22,11 @@ class ChildRepository(
         childDao.getChildrenForActivity(activityId)
 
     @WorkerThread
+    suspend fun update(fullChild: FullChild) {
+        childDao.update(fullChild.child)
+    }
+
+    @WorkerThread
     suspend fun create(child: Child): Long = withContext(ioDispatcher) {
         childDao.create(child)
     }

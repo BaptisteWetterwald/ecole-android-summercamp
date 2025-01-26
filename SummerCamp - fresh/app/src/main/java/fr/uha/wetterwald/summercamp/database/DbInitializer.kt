@@ -22,16 +22,15 @@ class DbInitializer(private val db: AppDatabase) {
         db.clearAllTables()
     }
 
-    // Ajouter des personnes fictives
+    // Ajouter des personnes
     private suspend fun insertPersons(): List<Long> {
         val personDao = db.personDao()
         return listOf(
-            personDao.create(getRandomPerson(Gender.MALE)),
-            personDao.create(getRandomPerson(Gender.FEMALE)),
-            personDao.create(getRandomPerson(Gender.MALE)),
-            personDao.create(getRandomPerson(Gender.FEMALE))
+            personDao.insertPerson(getRandomPerson(Gender.MALE)),
+            personDao.insertPerson(getRandomPerson(Gender.FEMALE))
         )
     }
+
 
     // Ajouter des superviseurs basés sur des personnes
     private suspend fun insertSupervisors(personIds: List<Long>): List<Long> {

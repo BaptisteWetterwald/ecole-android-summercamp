@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.uha.hassenforder.android.ui.app.UITitleBuilder
-import fr.uha.hassenforder.android.ui.app.UITitleState
 import fr.uha.hassenforder.android.ui.field.FieldWrapper
 import fr.uha.hassenforder.android.viewmodel.Result
 import fr.uha.wetterwald.summercamp.database.ActivityUpdateDTO
@@ -65,12 +64,6 @@ class ActivityViewModel @Inject constructor (
         )
 
     val titleBuilder = UITitleBuilder()
-
-    val uiTitleState : StateFlow<UITitleState> = titleBuilder.uiTitleState.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = UITitleState()
-    )
 
     sealed class UIEvent {
         data class NameChanged(val newValue: String): UIEvent()

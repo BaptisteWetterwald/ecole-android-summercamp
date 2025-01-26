@@ -1,4 +1,4 @@
-package fr.uha.wetterwald.summercamp.ui.team
+package fr.uha.wetterwald.summercamp.ui.activity
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -12,8 +12,6 @@ import fr.uha.hassenforder.android.ui.StateScreen
 import fr.uha.wetterwald.summercamp.R
 import fr.uha.wetterwald.summercamp.model.Activity
 import fr.uha.wetterwald.summercamp.model.Specialty
-import fr.uha.wetterwald.summercamp.ui.activity.ActivityViewModel
-import fr.uha.wetterwald.summercamp.ui.activity.SuccessActivityScreen
 
 @Destination<RootGraph>
 @Composable

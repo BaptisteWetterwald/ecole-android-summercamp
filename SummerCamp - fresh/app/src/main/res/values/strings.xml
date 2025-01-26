@@ -29,4 +29,6 @@
 
     <string name="choose_specialty">Select specialty</string>
     <string name="choose_gender">Select gender</string>
+    <string name="parent_phone">Parent Phone</string>
+    <string name="availability">Availability</string>
 </resources>

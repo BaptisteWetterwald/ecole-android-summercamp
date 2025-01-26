@@ -1,4 +1,4 @@
-package fr.uha.wetterwald.summercamp.ui.team
+package fr.uha.wetterwald.summercamp.ui.activity
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

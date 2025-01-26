@@ -18,7 +18,8 @@ interface ChildDao {
     @Delete
     suspend fun delete(child: Child)
 
-    @Query("SELECT * FROM children WHERE childId = :id")
+    @Transaction
+    @Query("SELECT * FROM persons WHERE personId = :id")
     fun getById(id: Long): Flow<FullChild?>
 
     @Query("SELECT * FROM children")

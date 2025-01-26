@@ -9,7 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
-import fr.uha.wetterwald.summercamp.ui.SummerCampAppScreen
+//import fr.uha.wetterwald.summercamp.ui.SummerCampAppScreen
 import fr.uha.wetterwald.summercamp.ui.theme.SummerCampTheme
 
 @AndroidEntryPoint
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SummerCampAppScreen()
+                    //SummerCampAppScreen()
                 }
             }
         }

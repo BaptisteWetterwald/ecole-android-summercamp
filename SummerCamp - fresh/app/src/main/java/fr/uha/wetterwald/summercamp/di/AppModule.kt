@@ -8,7 +8,13 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import fr.uha.wetterwald.summercamp.database.ActivityDao
 import fr.uha.wetterwald.summercamp.database.AppDatabase
+import fr.uha.wetterwald.summercamp.database.ChildDao
+import fr.uha.wetterwald.summercamp.database.PersonDao
+import fr.uha.wetterwald.summercamp.database.SupervisorDao
 import fr.uha.wetterwald.summercamp.repository.ActivityRepository
+import fr.uha.wetterwald.summercamp.repository.ChildRepository
+import fr.uha.wetterwald.summercamp.repository.PersonRepository
+import fr.uha.wetterwald.summercamp.repository.SupervisorRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -55,22 +61,25 @@ object AppModule {
     ) = ActivityRepository(activityDao, ioDispatcher)
 
 
-    /*
     @Singleton
     @Provides
     fun providePersonRepository(
-        ioDispatcher: CoroutineDispatcher,
-        personDao: PersonDao
-    ) = fr.uha.wetterwald.summercamp.repository.PersonRepository(ioDispatcher, personDao)
-    */
+        personDao: PersonDao,
+        ioDispatcher: CoroutineDispatcher
+    ) = PersonRepository(personDao, ioDispatcher)
 
-    /*
     @Singleton
     @Provides
-    fun provideTeamRepository(
-        ioDispatcher: CoroutineDispatcher,
-        teamDao: TeamDao
-    ) = fr.uha.wetterwald.summercamp.repository.TeamRepository(ioDispatcher, teamDao)
-    */
+    fun provideChildRepository(
+        childDao: ChildDao,
+        ioDispatcher: CoroutineDispatcher
+    ) = ChildRepository(childDao, ioDispatcher)
+
+    @Singleton
+    @Provides
+    fun provideSupervisorRepository(
+        supervisorDao: SupervisorDao,
+        ioDispatcher: CoroutineDispatcher
+    ) = SupervisorRepository(supervisorDao, ioDispatcher)
 
 }

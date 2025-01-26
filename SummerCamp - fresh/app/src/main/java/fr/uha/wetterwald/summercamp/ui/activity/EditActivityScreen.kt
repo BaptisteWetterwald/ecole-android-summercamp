@@ -10,8 +10,6 @@ import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import fr.uha.hassenforder.android.ui.StateScreen
 import fr.uha.wetterwald.summercamp.R
-import fr.uha.wetterwald.summercamp.ui.activity.ActivityViewModel
-import fr.uha.wetterwald.summercamp.ui.activity.SuccessActivityScreen
 
 @Destination<RootGraph>
 @Composable

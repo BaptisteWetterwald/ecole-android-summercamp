@@ -18,7 +18,8 @@ interface SupervisorDao {
     @Delete
     suspend fun delete(supervisor: Supervisor)
 
-    @Query("SELECT * FROM supervisors WHERE supervisorId = :id")
+    @Transaction
+    @Query("SELECT * FROM persons WHERE personId = :id")
     fun getById(id: Long): Flow<FullSupervisor?>
 
     @Query("SELECT * FROM supervisors")

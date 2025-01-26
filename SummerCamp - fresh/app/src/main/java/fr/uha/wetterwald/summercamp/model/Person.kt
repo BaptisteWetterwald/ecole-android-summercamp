@@ -11,9 +11,9 @@ import fr.uha.hassenforder.android.database.DatabaseTypeConverters
 data class Person(
     @PrimaryKey(autoGenerate = true)
     val personId: Long = 0,
-    val firstname: String,
-    val lastname: String,
-    val age: Int,
+    var firstname: String,
+    var lastname: String,
+    var age: Int,
     val gender: Gender,
     val picture: Uri?
 )

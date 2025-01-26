@@ -22,6 +22,11 @@ class SupervisorRepository(
         supervisorDao.getSupervisorsForActivity(activityId)
 
     @WorkerThread
+    suspend fun update(fullSupervisor: FullSupervisor) {
+        supervisorDao.update(fullSupervisor.supervisor)
+    }
+
+    @WorkerThread
     suspend fun create(supervisor: Supervisor): Long = withContext(ioDispatcher) {
         supervisorDao.create(supervisor)
     }

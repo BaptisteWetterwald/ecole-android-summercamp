@@ -4,8 +4,6 @@ import fr.uha.wetterwald.summercamp.R
 import fr.uha.wetterwald.summercamp.model.FullActivity
 import fr.uha.wetterwald.summercamp.model.Person
 import fr.uha.wetterwald.summercamp.model.Specialty
-import java.time.Instant
-import java.util.*
 
 class ActivityUIValidator (private val activity : FullActivity) {
 
@@ -56,16 +54,6 @@ class ActivityUIValidator (private val activity : FullActivity) {
             newValue.isEmpty() ->  R.string.value_empty
             else -> null
         }
-    }
-
-    private fun instantToMidnight(date: Date): Instant {
-        val calendar = GregorianCalendar()
-        calendar.time = date
-        calendar.set(Calendar.MILLISECOND, 0)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.HOUR, 0)
-        return calendar.toInstant()
     }
 
     fun validatePeriod(newValue: String) : Int? {
