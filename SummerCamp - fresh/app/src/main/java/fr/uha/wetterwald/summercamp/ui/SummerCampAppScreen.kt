@@ -4,30 +4,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Group
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.generated.NavGraphs
-//import com.ramcosta.composedestinations.generated.destinations.CreatePersonScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.GreetingScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.ListActivitiesScreenDestination
-//import com.ramcosta.composedestinations.generated.destinations.ListPersonsScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.ListSupervisorsScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SettingsScreenDestination
 import fr.uha.hassenforder.android.model.IconPicture
 import fr.uha.hassenforder.android.model.IconRender
 import fr.uha.hassenforder.android.ui.app.AppBottomBar
 import fr.uha.hassenforder.android.ui.app.BottomBarDestination
 import fr.uha.wetterwald.summercamp.R
-import fr.uha.wetterwald.summercamp.ui.team.ListActivitiesScreen
 
 @Composable
 fun SummerCampAppScreen(modifier: Modifier = Modifier) {
@@ -59,14 +54,14 @@ private val bottomNavigations = arrayOf<BottomBarDestination>(
         labelId = R.string.home
     ),
 
-//    BottomBarDestination(
-//        direction = ListPersonsScreenDestination,
-//        icon = IconRender(
-//            focused = IconPicture(vector = Icons.Filled.Group),
-//            unfocused = IconPicture(vector = Icons.Outlined.Group)
-//        ),
-//        labelId = R.string.list_person
-//    ),
+    BottomBarDestination(
+        direction = ListSupervisorsScreenDestination,
+        icon = IconRender(
+            focused = IconPicture(vector = Icons.Filled.Group),
+            unfocused = IconPicture(vector = Icons.Outlined.Group)
+        ),
+        labelId = R.string.list_supervisors
+    ),
 
     BottomBarDestination(
         direction = ListActivitiesScreenDestination,

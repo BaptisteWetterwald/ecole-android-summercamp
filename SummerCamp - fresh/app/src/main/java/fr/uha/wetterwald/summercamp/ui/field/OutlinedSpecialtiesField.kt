@@ -40,8 +40,7 @@ fun OutlinedSpecialtiesFieldWrapper(
                 .padding(8.dp)
         ) {
             Text(
-                text = field.value?.joinToString { it.name }
-                    ?: stringResource(id = R.string.choose_specialty),
+                text = field.value?.joinToString { it.name } ?: stringResource(id = R.string.choose_specialty),
                 modifier = Modifier.weight(1.0f)
             )
 

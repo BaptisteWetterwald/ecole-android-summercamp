@@ -31,4 +31,8 @@
     <string name="choose_gender">Select gender</string>
     <string name="parent_phone">Parent Phone</string>
     <string name="availability">Availability</string>
+    <string name="create_supervisor">Create Supervisor</string>
+    <string name="specialties">Specialties</string>
+    <string name="edit_supervisor">Edit Supervisor</string>
+    <string name="list_supervisors">List supervisors</string>
 </resources>
