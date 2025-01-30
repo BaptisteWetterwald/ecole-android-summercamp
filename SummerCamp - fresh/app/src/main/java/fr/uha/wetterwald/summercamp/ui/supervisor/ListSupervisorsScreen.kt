@@ -1,15 +1,15 @@
-package fr.uha.wetterwald.summercamp.ui.person
+package fr.uha.wetterwald.summercamp.ui.supervisor
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.outlined.DoNotDisturb
 import androidx.compose.material.icons.outlined.Female
 import androidx.compose.material.icons.outlined.Male
 import androidx.compose.material.icons.outlined.Phone
@@ -40,8 +40,6 @@ import fr.uha.hassenforder.android.ui.app.UITitleState
 import fr.uha.wetterwald.summercamp.R
 import fr.uha.wetterwald.summercamp.model.Gender
 import fr.uha.wetterwald.summercamp.model.Supervisor
-import fr.uha.wetterwald.summercamp.ui.supervisor.EditSupervisorScreen
-import fr.uha.wetterwald.summercamp.ui.supervisor.ListSupervisorsViewModel
 
 @Destination<RootGraph>
 @Composable
@@ -65,7 +63,12 @@ fun ListSupervisorsScreen (
             modifier = Modifier.padding(innerPadding)
         ) {
             StateScreen(state = uiState) { content ->
-                SuccessListSupervisorsScreen(content, navigator, { vm.send (it) })
+                SuccessListSupervisorsScreen(
+                    content,
+                    navigator,
+                    { vm.send (it) },
+                    Modifier.fillMaxHeight()
+                )
             }
         }
     }
@@ -74,8 +77,9 @@ fun ListSupervisorsScreen (
 @Composable
 fun SuccessListSupervisorsScreen (
     uiState: ListSupervisorsViewModel.UIState,
-    navigator : DestinationsNavigator,
-    send : (ListSupervisorsViewModel.UIEvent) -> Unit
+    navigator: DestinationsNavigator,
+    send: (ListSupervisorsViewModel.UIEvent) -> Unit,
+    modifier: Modifier
 ) {
     LazyColumn () {
         items(

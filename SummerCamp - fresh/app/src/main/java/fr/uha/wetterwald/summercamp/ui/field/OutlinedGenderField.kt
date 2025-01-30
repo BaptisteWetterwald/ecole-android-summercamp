@@ -59,7 +59,7 @@ fun OutlinedGenderFieldWrapper(
                     onValueChange?.invoke(it)
                 },
                 showDialog = showDialog,
-                label = stringResource(id = R.string.choose_specialty),
+                label = stringResource(id = R.string.choose_gender),
                 onDismiss = { showDialog = false }
             )
         }

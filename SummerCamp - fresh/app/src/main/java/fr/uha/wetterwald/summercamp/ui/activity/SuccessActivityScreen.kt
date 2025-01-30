@@ -1,6 +1,9 @@
 package fr.uha.wetterwald.summercamp.ui.activity
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -69,16 +72,26 @@ fun SuccessActivityScreen(
                 labelId = R.string.specialty,
             )
 
-            /*
-            // members
-            OutlinedMembersFieldWrapper(
-                field = activity.members,
-                onAddMember = { send(ActivityViewModel.UIEvent.AddMember(it)) },
-                onRemoveMember = { send(ActivityViewModel.UIEvent.RemoveMember(it)) },
-                modifier = Modifier.fillMaxWidth(),
-                labelId = R.string.members,
-            )
-            */
+            // children and supervisors
+            Row(modifier = Modifier.fillMaxSize()) {
+                OutlinedChildrenFieldWrapper(
+                    field = activity.children,
+                    onAddMember = { send(ActivityViewModel.UIEvent.AddChild(it)) },
+                    onRemoveMember = { send(ActivityViewModel.UIEvent.RemoveChild(it)) },
+                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                    labelId = R.string.list_children
+                )
+
+                OutlinedSupervisorsFieldWrapper(
+                    field = activity.supervisors,
+                    onAddMember = { send(ActivityViewModel.UIEvent.AddSupervisor(it)) },
+                    onRemoveMember = { send(ActivityViewModel.UIEvent.RemoveSupervisor(it)) },
+                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                    labelId = R.string.list_supervisors
+                )
+            }
+
         }
     }
 }
+

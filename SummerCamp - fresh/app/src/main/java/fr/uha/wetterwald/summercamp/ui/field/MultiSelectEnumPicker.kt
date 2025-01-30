@@ -2,9 +2,7 @@ package fr.uha.wetterwald.summercamp.ui.field
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,18 +34,18 @@ fun <T : Enum<T>> MultiSelectEnumPicker(
                             .toggleable(
                                 value = selectedValues.contains(value),
                                 onValueChange = {
-                                    if (selectedValues.contains(value)) {
-                                        selectedValues.remove(value)
+                                    selectedValues = (if (selectedValues.contains(value)) {
+                                        selectedValues - value
                                     } else {
-                                        selectedValues.add(value)
-                                    }
+                                        selectedValues + value
+                                    }) as MutableSet<T>
                                 }
-                            )
+                            ),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        val isChecked = selectedValues.contains(value)
-                        androidx.compose.material3.Checkbox(
-                            checked = isChecked,
-                            onCheckedChange = null // Toggleable handles state
+                        Checkbox(
+                            checked = selectedValues.contains(value),
+                            onCheckedChange = null // `toggleable` gère déjà l'état
                         )
                         Text(
                             text = value.name,

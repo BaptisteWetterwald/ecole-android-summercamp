@@ -35,4 +35,7 @@
     <string name="specialties">Specialties</string>
     <string name="edit_supervisor">Edit Supervisor</string>
     <string name="list_supervisors">List supervisors</string>
+    <string name="create_child">Create Child</string>
+    <string name="edit_child">Edit Child</string>
+    <string name="list_children">List Children</string>
 </resources>

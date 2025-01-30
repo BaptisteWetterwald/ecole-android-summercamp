@@ -1,14 +1,18 @@
-package fr.uha.wetterwald.summercamp.ui.activity
+package fr.uha.wetterwald.summercamp.ui.child
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.isImeVisible
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.outlined.Female
+import androidx.compose.material.icons.outlined.Male
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
@@ -18,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,32 +30,33 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
-import com.ramcosta.composedestinations.generated.destinations.CreateActivityScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.EditActivityScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.CreateChildScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.EditChildScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import fr.uha.hassenforder.android.icons.TimeEnd
-import fr.uha.hassenforder.android.icons.TimeStart
 import fr.uha.hassenforder.android.ui.StateScreen
 import fr.uha.hassenforder.android.ui.SwipeableItem
 import fr.uha.hassenforder.android.ui.app.AppTopBar
 import fr.uha.hassenforder.android.ui.app.UITitleState
 import fr.uha.wetterwald.summercamp.R
-import fr.uha.wetterwald.summercamp.model.Activity
-import fr.uha.wetterwald.summercamp.ui.activity.ListActivitiesViewModel
+import fr.uha.wetterwald.summercamp.model.Child
+import fr.uha.wetterwald.summercamp.model.Gender
+import fr.uha.wetterwald.summercamp.ui.child.ListChildrenViewModel
 
 @Destination<RootGraph>
 @Composable
-fun ListActivitiesScreen (
-    vm : ListActivitiesViewModel = hiltViewModel(),
+fun ListChildrenScreen (
+    vm : ListChildrenViewModel = hiltViewModel(),
     navigator: DestinationsNavigator
 ) {
     val uiState by vm.uiState.collectAsStateWithLifecycle()
 
     Scaffold (
-        topBar = { AppTopBar(UITitleState(screenNameId = R.string.list_activities)) },
+        topBar = { AppTopBar(UITitleState(screenNameId = R.string.list_children)) },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navigator.navigate(CreateActivityScreenDestination)}
+                onClick = {
+                    navigator.navigate(CreateChildScreenDestination)
+                },
             ) {
                 Icon(Icons.Filled.Add, contentDescription = "add")
             }
@@ -60,40 +66,51 @@ fun ListActivitiesScreen (
             modifier = Modifier.padding(innerPadding)
         ) {
             StateScreen(state = uiState) { content ->
-                SuccessListActivitiesScreen(content, navigator, { vm.send (it) })
+                SuccessListChildrenScreen(
+                    content,
+                    navigator,
+                    { vm.send (it) },
+                    Modifier.fillMaxHeight()
+                )
             }
         }
     }
 }
 
 @Composable
-fun SuccessListActivitiesScreen (
-    uiState: ListActivitiesViewModel.UIState,
-    navigator : DestinationsNavigator,
-    send : (ListActivitiesViewModel.UIEvent) -> Unit
+fun SuccessListChildrenScreen (
+    uiState: ListChildrenViewModel.UIState,
+    navigator: DestinationsNavigator,
+    send: (ListChildrenViewModel.UIEvent) -> Unit,
+    modifier: Modifier
 ) {
-    LazyColumn () {
+    LazyColumn {
         items(
-            items = uiState.activities,
-            key = { item -> item.activityId }
+            items = uiState.children,
+            key = { item -> item.childId }
         ) { item ->
             SwipeableItem (
-                onEdit = { navigator.navigate(EditActivityScreenDestination(item.activityId))},
-                onDelete = { send(ListActivitiesViewModel.UIEvent.OnDelete(item)) }
+                onEdit = { navigator.navigate(EditChildScreenDestination(item.childId))},
+                onDelete = { send(ListChildrenViewModel.UIEvent.OnDelete(item)) }
             ) {
-                ActivityItem(item)
+                ChildItem (item)
             }
         }
     }
 }
 
 @Composable
-fun ActivityItem(activity: Activity) {
+fun ChildItem (child: Child) {
+    val gender : ImageVector =
+        when(child.gender) {
+            Gender.FEMALE -> Icons.Outlined.Female
+            Gender.MALE -> Icons.Outlined.Male
+        }
     ListItem (
         headlineContent = {
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text(activity.name, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                Text("(${activity.period.replace("T", " ")})", fontSize = 15.sp)
+                Text(child.firstname)
+                Text(child.lastname)
             }
         },
         supportingContent = {
@@ -101,19 +118,12 @@ fun ActivityItem(activity: Activity) {
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(imageVector = Icons.TimeStart, contentDescription = "time start")
-                val description = activity.description
-                val maxParticipants = activity.maxParticipants
-                val location = activity.location
-
-                val title = if (description.length > 20) description.substring(0, 20) + "..." else description
-                val sub = "Max: $maxParticipants. At $location"
-
-                Text(title, fontSize = 16.sp)
-                Text(sub, fontSize = 14.sp, fontWeight = FontWeight.Bold)
-                Icon(imageVector = Icons.TimeEnd, contentDescription = "time end")
+                Icon(imageVector = Icons.Outlined.Person, contentDescription = "person")
+                Text(child.age.toString() + " y/o", fontSize = 16.sp, fontWeight = FontWeight.Bold)
             }
         },
+        trailingContent = {
+            Icon(imageVector = gender, contentDescription = "gender", modifier = Modifier.size(48.dp))
+        }
     )
 }
-

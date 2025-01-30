@@ -15,4 +15,6 @@
 
     <string name="loading">Loading content</string>
     <string name="error">Error fetching content</string>
+    <string name="select_child">Select Child</string>
+    <string name="select_supervisor">Select Supervisor</string>
 </resources>

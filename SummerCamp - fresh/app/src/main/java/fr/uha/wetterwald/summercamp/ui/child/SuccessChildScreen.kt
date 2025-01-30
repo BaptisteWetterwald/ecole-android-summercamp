@@ -1,4 +1,4 @@
-package fr.uha.wetterwald.summercamp.ui.person
+package fr.uha.wetterwald.summercamp.ui.child
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,9 +21,9 @@ import fr.uha.wetterwald.summercamp.ui.field.OutlinedGenderFieldWrapper
 import fr.uha.wetterwald.summercamp.ui.field.OutlinedSpecialtiesFieldWrapper
 
 @Composable
-fun SuccessSupervisorScreen(
-    supervisor: SupervisorViewModel.UIState,
-    send : (SupervisorViewModel.UIEvent) -> Unit,
+fun SuccessChildScreen(
+    supervisor: ChildViewModel.UIState,
+    send : (ChildViewModel.UIEvent) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -32,31 +32,31 @@ fun SuccessSupervisorScreen(
     ) {
         OutlinedTextFieldWrapper(
             field = supervisor.firstnameState,
-            onValueChange = { send(SupervisorViewModel.UIEvent.FirstnameChanged(it)) },
+            onValueChange = { send(ChildViewModel.UIEvent.FirstnameChanged(it)) },
             modifier = Modifier.fillMaxWidth(),
             labelId = R.string.firstname,
         )
         OutlinedTextFieldWrapper(
             field = supervisor.lastnameState,
-            onValueChange = { send(SupervisorViewModel.UIEvent.LastnameChanged(it)) },
+            onValueChange = { send(ChildViewModel.UIEvent.LastnameChanged(it)) },
             modifier = Modifier.fillMaxWidth(),
             labelId = R.string.lastname,
         )
         OutlinedIntFieldWrapper(
             field = supervisor.ageState,
-            onValueChange = { send(SupervisorViewModel.UIEvent.AgeChanged(it)) },
+            onValueChange = { send(ChildViewModel.UIEvent.AgeChanged(it)) },
             modifier = Modifier.fillMaxWidth(),
             labelId = R.string.age,
         )
         OutlinedGenderFieldWrapper(
             field = supervisor.genderState,
-            onValueChange = { send(SupervisorViewModel.UIEvent.GenderChanged(it)) },
+            onValueChange = { send(ChildViewModel.UIEvent.GenderChanged(it)) },
             modifier = Modifier.fillMaxWidth(),
             labelId = R.string.gender,
         )
         OutlinedPictureFieldWrapper(
             field = supervisor.pictureState,
-            onValueChange = { send(SupervisorViewModel.UIEvent.PictureChanged(it)) },
+            onValueChange = { send(ChildViewModel.UIEvent.PictureChanged(it)) },
             config = PictureFieldConfig(
                 galleryFilter = "image/*",
                 newImageUriProvider = { TeamFileProvider.getImageUri(context) },
@@ -65,22 +65,10 @@ fun SuccessSupervisorScreen(
             labelId = R.string.picture,
         )
         OutlinedTextFieldWrapper(
-            field = supervisor.phoneState,
-            onValueChange = { send(SupervisorViewModel.UIEvent.PhoneChanged(it)) },
+            field = supervisor.parentPhoneState,
+            onValueChange = { send(ChildViewModel.UIEvent.ParentPhoneChanged(it)) },
             modifier = Modifier.fillMaxWidth(),
             labelId = R.string.phone,
-        )
-        OutlinedSpecialtiesFieldWrapper(
-            field = supervisor.specialtiesState,
-            onValueChange = { send(SupervisorViewModel.UIEvent.SpecialtiesChanged(it)) },
-            modifier = Modifier.fillMaxWidth(),
-            labelId = R.string.specialties,
-        )
-        OutlinedTextFieldWrapper(
-            field = supervisor.availabilityState,
-            onValueChange = { send(SupervisorViewModel.UIEvent.AvailabilityChanged(it)) },
-            modifier = Modifier.fillMaxWidth(),
-            labelId = R.string.availability,
         )
     }
 }

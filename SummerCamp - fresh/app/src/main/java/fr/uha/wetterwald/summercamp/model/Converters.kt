@@ -1,5 +1,6 @@
 package fr.uha.wetterwald.summercamp.model
 
+import android.util.Log
 import androidx.room.TypeConverter
 
 class Converters {
@@ -31,7 +32,14 @@ class Converters {
 
     @TypeConverter
     fun toSpecialtyList(data: String): List<Specialty> {
-        return data.split(",").map { Specialty.valueOf(it) }
+        if (data.isEmpty()) {
+            return emptyList()
+        }
+        val split = data.split(",")
+        if (split.isEmpty()) {
+            return emptyList()
+        }
+        return split.map { Specialty.valueOf(it) }
     }
 
 }
