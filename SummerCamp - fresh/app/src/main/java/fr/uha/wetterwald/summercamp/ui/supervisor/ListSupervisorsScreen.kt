@@ -43,13 +43,13 @@ import fr.uha.wetterwald.summercamp.model.Supervisor
 
 @Destination<RootGraph>
 @Composable
-fun ListSupervisorsScreen (
-    vm : ListSupervisorsViewModel = hiltViewModel(),
+fun ListSupervisorsScreen(
+    vm: ListSupervisorsViewModel = hiltViewModel(),
     navigator: DestinationsNavigator
 ) {
     val uiState by vm.uiState.collectAsStateWithLifecycle()
 
-    Scaffold (
+    Scaffold(
         topBar = { AppTopBar(UITitleState(screenNameId = R.string.list_supervisors)) },
         floatingActionButton = {
             FloatingActionButton(
@@ -66,7 +66,7 @@ fun ListSupervisorsScreen (
                 SuccessListSupervisorsScreen(
                     content,
                     navigator,
-                    { vm.send (it) },
+                    { vm.send(it) },
                     Modifier.fillMaxHeight()
                 )
             }
@@ -75,35 +75,35 @@ fun ListSupervisorsScreen (
 }
 
 @Composable
-fun SuccessListSupervisorsScreen (
+fun SuccessListSupervisorsScreen(
     uiState: ListSupervisorsViewModel.UIState,
     navigator: DestinationsNavigator,
     send: (ListSupervisorsViewModel.UIEvent) -> Unit,
     modifier: Modifier
 ) {
-    LazyColumn () {
+    LazyColumn() {
         items(
             items = uiState.supervisors,
             key = { item -> item.supervisorId }
         ) { item ->
-            SwipeableItem (
-                onEdit = { navigator.navigate(EditSupervisorScreenDestination(item.supervisorId))},
+            SwipeableItem(
+                onEdit = { navigator.navigate(EditSupervisorScreenDestination(item.supervisorId)) },
                 onDelete = { send(ListSupervisorsViewModel.UIEvent.OnDelete(item)) }
             ) {
-                SupervisorItem (item)
+                SupervisorItem(item)
             }
         }
     }
 }
 
 @Composable
-fun SupervisorItem (supervisor: Supervisor) {
-    val gender : ImageVector =
-        when(supervisor.gender) {
+fun SupervisorItem(supervisor: Supervisor) {
+    val gender: ImageVector =
+        when (supervisor.gender) {
             Gender.FEMALE -> Icons.Outlined.Female
             Gender.MALE -> Icons.Outlined.Male
         }
-    ListItem (
+    ListItem(
         headlineContent = {
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(supervisor.firstname)
@@ -111,7 +111,7 @@ fun SupervisorItem (supervisor: Supervisor) {
             }
         },
         supportingContent = {
-            Row (
+            Row(
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -120,7 +120,11 @@ fun SupervisorItem (supervisor: Supervisor) {
             }
         },
         trailingContent = {
-            Icon(imageVector = gender, contentDescription = "gender", modifier = Modifier.size(48.dp))
+            Icon(
+                imageVector = gender,
+                contentDescription = "gender",
+                modifier = Modifier.size(32.dp)
+            )
         }
     )
 }

@@ -21,24 +21,24 @@ import fr.uha.wetterwald.summercamp.model.Child
 import fr.uha.wetterwald.summercamp.model.Gender
 
 @Composable
-fun ActivityChild (
+fun ActivityChild(
     child: Child,
     modifier: Modifier = Modifier,
 ) {
-    val gender : ImageVector =
-        when(child.gender) {
+    val gender: ImageVector =
+        when (child.gender) {
             Gender.FEMALE -> Icons.Outlined.Female
             Gender.MALE -> Icons.Outlined.Male
         }
-    ListItem (
+    ListItem(
         headlineContent = {
             Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(child.firstname, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                Text(child.firstname, fontSize = 12.sp)
                 Text(child.lastname, fontSize = 12.sp)
             }
         },
         supportingContent = {
-            Row (
+            Row(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -48,7 +48,11 @@ fun ActivityChild (
             }
         },
         trailingContent = {
-            Icon(imageVector = gender, contentDescription = "gender", modifier = Modifier.size(32.dp))
+            Icon(
+                imageVector = gender,
+                contentDescription = "gender",
+                modifier = Modifier.size(32.dp)
+            )
         }
     )
 }

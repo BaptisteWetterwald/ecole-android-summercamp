@@ -13,10 +13,10 @@ import fr.uha.wetterwald.summercamp.R
 
 @Destination<RootGraph>
 @Composable
-fun EditActivityScreen (
-    vm : ActivityViewModel = hiltViewModel(),
-    navigator : DestinationsNavigator,
-    tid : Long,
+fun EditActivityScreen(
+    vm: ActivityViewModel = hiltViewModel(),
+    navigator: DestinationsNavigator,
+    tid: Long,
 ) {
     val uiState by vm.uiState.collectAsStateWithLifecycle()
 
@@ -24,8 +24,7 @@ fun EditActivityScreen (
         vm.edit(tid)
         vm.titleBuilder.setScreenNameId(R.string.edit_activity)
     }
-    StateScreen(state = uiState) {
-            content ->
+    StateScreen(state = uiState) { content ->
         SuccessActivityScreen(content, { vm.send(it) })
     }
 

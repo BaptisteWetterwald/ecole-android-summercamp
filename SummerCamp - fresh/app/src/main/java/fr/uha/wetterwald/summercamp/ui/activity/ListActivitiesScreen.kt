@@ -3,7 +3,6 @@ package fr.uha.wetterwald.summercamp.ui.activity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -36,21 +35,20 @@ import fr.uha.hassenforder.android.ui.app.AppTopBar
 import fr.uha.hassenforder.android.ui.app.UITitleState
 import fr.uha.wetterwald.summercamp.R
 import fr.uha.wetterwald.summercamp.model.Activity
-import fr.uha.wetterwald.summercamp.ui.activity.ListActivitiesViewModel
 
 @Destination<RootGraph>
 @Composable
-fun ListActivitiesScreen (
-    vm : ListActivitiesViewModel = hiltViewModel(),
+fun ListActivitiesScreen(
+    vm: ListActivitiesViewModel = hiltViewModel(),
     navigator: DestinationsNavigator
 ) {
     val uiState by vm.uiState.collectAsStateWithLifecycle()
 
-    Scaffold (
+    Scaffold(
         topBar = { AppTopBar(UITitleState(screenNameId = R.string.list_activities)) },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navigator.navigate(CreateActivityScreenDestination)}
+                onClick = { navigator.navigate(CreateActivityScreenDestination) }
             ) {
                 Icon(Icons.Filled.Add, contentDescription = "add")
             }
@@ -60,25 +58,25 @@ fun ListActivitiesScreen (
             modifier = Modifier.padding(innerPadding)
         ) {
             StateScreen(state = uiState) { content ->
-                SuccessListActivitiesScreen(content, navigator, { vm.send (it) })
+                SuccessListActivitiesScreen(content, navigator, { vm.send(it) })
             }
         }
     }
 }
 
 @Composable
-fun SuccessListActivitiesScreen (
+fun SuccessListActivitiesScreen(
     uiState: ListActivitiesViewModel.UIState,
-    navigator : DestinationsNavigator,
-    send : (ListActivitiesViewModel.UIEvent) -> Unit
+    navigator: DestinationsNavigator,
+    send: (ListActivitiesViewModel.UIEvent) -> Unit
 ) {
-    LazyColumn () {
+    LazyColumn() {
         items(
             items = uiState.activities,
             key = { item -> item.activityId }
         ) { item ->
-            SwipeableItem (
-                onEdit = { navigator.navigate(EditActivityScreenDestination(item.activityId))},
+            SwipeableItem(
+                onEdit = { navigator.navigate(EditActivityScreenDestination(item.activityId)) },
                 onDelete = { send(ListActivitiesViewModel.UIEvent.OnDelete(item)) }
             ) {
                 ActivityItem(item)
@@ -89,7 +87,7 @@ fun SuccessListActivitiesScreen (
 
 @Composable
 fun ActivityItem(activity: Activity) {
-    ListItem (
+    ListItem(
         headlineContent = {
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(activity.name, fontSize = 20.sp, fontWeight = FontWeight.Bold)
@@ -97,7 +95,7 @@ fun ActivityItem(activity: Activity) {
             }
         },
         supportingContent = {
-            Row (
+            Row(
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -106,7 +104,10 @@ fun ActivityItem(activity: Activity) {
                 val maxParticipants = activity.maxParticipants
                 val location = activity.location
 
-                val title = if (description.length > 20) description.substring(0, 20) + "..." else description
+                val title = if (description.length > 20) description.substring(
+                    0,
+                    20
+                ) + "..." else description
                 val sub = "Max: $maxParticipants. At $location"
 
                 Text(title, fontSize = 16.sp)

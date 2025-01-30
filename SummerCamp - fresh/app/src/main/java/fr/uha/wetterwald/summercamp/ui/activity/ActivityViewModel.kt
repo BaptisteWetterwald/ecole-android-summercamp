@@ -19,9 +19,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ActivityViewModel @Inject constructor (
+class ActivityViewModel @Inject constructor(
     private val repository: ActivityRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _id: MutableStateFlow<Long> = MutableStateFlow(0)
 
@@ -37,23 +37,55 @@ class ActivityViewModel @Inject constructor (
         val activity: FullActivity,
     ) {
         companion object {
-            fun create (activity : FullActivity) : UIState {
+            fun create(activity: FullActivity): UIState {
                 val validator = ActivityUIValidator(activity)
-                val name = FieldWrapper(activity.activity.name, validator.validateName(activity.activity.name))
-                val description = FieldWrapper(activity.activity.description, validator.validateDescription(activity.activity.description))
-                val maxParticipants = FieldWrapper(activity.activity.maxParticipants, validator.validateMaxParticipants(activity.activity.maxParticipants))
-                val location = FieldWrapper(activity.activity.location, validator.validateLocation(activity.activity.location))
-                val period = FieldWrapper(activity.activity.period, validator.validatePeriod(activity.activity.period))
-                val specialty = FieldWrapper(activity.activity.specialty, validator.validateSpecialty(activity.activity.specialty))
-                val children = FieldWrapper(activity.children, validator.validateChildren(activity.children))
-                val supervisors = FieldWrapper(activity.supervisors, validator.validateSupervisors(activity.supervisors))
-                return UIState(name, description, maxParticipants, location, period, specialty, children, supervisors, activity)
+                val name = FieldWrapper(
+                    activity.activity.name,
+                    validator.validateName(activity.activity.name)
+                )
+                val description = FieldWrapper(
+                    activity.activity.description,
+                    validator.validateDescription(activity.activity.description)
+                )
+                val maxParticipants = FieldWrapper(
+                    activity.activity.maxParticipants,
+                    validator.validateMaxParticipants(activity.activity.maxParticipants)
+                )
+                val location = FieldWrapper(
+                    activity.activity.location,
+                    validator.validateLocation(activity.activity.location)
+                )
+                val period = FieldWrapper(
+                    activity.activity.period,
+                    validator.validatePeriod(activity.activity.period)
+                )
+                val specialty = FieldWrapper(
+                    activity.activity.specialty,
+                    validator.validateSpecialty(activity.activity.specialty)
+                )
+                val children =
+                    FieldWrapper(activity.children, validator.validateChildren(activity.children))
+                val supervisors = FieldWrapper(
+                    activity.supervisors,
+                    validator.validateSupervisors(activity.supervisors)
+                )
+                return UIState(
+                    name,
+                    description,
+                    maxParticipants,
+                    location,
+                    period,
+                    specialty,
+                    children,
+                    supervisors,
+                    activity
+                )
             }
         }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val uiState : StateFlow<Result<UIState>> = _id
+    val uiState: StateFlow<Result<UIState>> = _id
         .flatMapLatest { id -> repository.getActivityById(id) }
         .map { activity ->
             if (activity != null)
@@ -69,54 +101,77 @@ class ActivityViewModel @Inject constructor (
     val titleBuilder = UITitleBuilder()
 
     sealed class UIEvent {
-        data class NameChanged(val newValue: String): UIEvent()
-        data class DescriptionChanged(val newValue: String): UIEvent()
-        data class MaxParticipantsChanged(val newValue: Int): UIEvent()
-        data class LocationChanged(val newValue: String): UIEvent()
-        data class PeriodChanged(val newValue: String): UIEvent()
-        data class SpecialtyChanged(val newValue: fr.uha.wetterwald.summercamp.model.Specialty): UIEvent()
-        data class AddChild(val newValue: Child): UIEvent()
-        data class RemoveChild(val newValue: Child): UIEvent()
-        data class AddSupervisor(val newValue: Supervisor): UIEvent()
-        data class RemoveSupervisor(val newValue: Supervisor): UIEvent()
+        data class NameChanged(val newValue: String) : UIEvent()
+        data class DescriptionChanged(val newValue: String) : UIEvent()
+        data class MaxParticipantsChanged(val newValue: Int) : UIEvent()
+        data class LocationChanged(val newValue: String) : UIEvent()
+        data class PeriodChanged(val newValue: String) : UIEvent()
+        data class SpecialtyChanged(val newValue: fr.uha.wetterwald.summercamp.model.Specialty) :
+            UIEvent()
+
+        data class AddChild(val newValue: Child) : UIEvent()
+        data class RemoveChild(val newValue: Child) : UIEvent()
+        data class AddSupervisor(val newValue: Supervisor) : UIEvent()
+        data class RemoveSupervisor(val newValue: Supervisor) : UIEvent()
     }
 
-    fun send (uiEvent : UIEvent) {
+    fun send(uiEvent: UIEvent) {
         viewModelScope.launch {
             if (uiState.value !is Result.Success) return@launch
-            val activityId = (uiState.value as Result.Success<UIState>).content.activity.activity.activityId
+            val activityId =
+                (uiState.value as Result.Success<UIState>).content.activity.activity.activityId
             when (uiEvent) {
                 is UIEvent.NameChanged ->
                     repository.update(ActivityUpdateDTO.Name(activityId, uiEvent.newValue))
+
                 is UIEvent.DescriptionChanged ->
                     repository.update(ActivityUpdateDTO.Description(activityId, uiEvent.newValue))
+
                 is UIEvent.MaxParticipantsChanged ->
-                    repository.update(ActivityUpdateDTO.MaxParticipants(activityId, uiEvent.newValue))
+                    repository.update(
+                        ActivityUpdateDTO.MaxParticipants(
+                            activityId,
+                            uiEvent.newValue
+                        )
+                    )
+
                 is UIEvent.LocationChanged ->
                     repository.update(ActivityUpdateDTO.Location(activityId, uiEvent.newValue))
+
                 is UIEvent.PeriodChanged ->
                     repository.update(ActivityUpdateDTO.Period(activityId, uiEvent.newValue))
+
                 is UIEvent.SpecialtyChanged ->
-                    repository.update(Specialty(activityId, fr.uha.wetterwald.summercamp.model.Specialty.valueOf(uiEvent.newValue.name)))
+                    repository.update(
+                        Specialty(
+                            activityId,
+                            fr.uha.wetterwald.summercamp.model.Specialty.valueOf(uiEvent.newValue.name)
+                        )
+                    )
+
                 is UIEvent.AddChild ->
                     repository.addChild(activityId, uiEvent.newValue)
+
                 is UIEvent.RemoveChild ->
                     repository.removeChild(activityId, uiEvent.newValue)
+
                 is UIEvent.AddSupervisor ->
                     repository.addSupervisor(activityId, uiEvent.newValue)
+
                 is UIEvent.RemoveSupervisor ->
                     repository.removeSupervisor(activityId, uiEvent.newValue)
+
                 else -> {}
             }
         }
     }
 
-    fun edit (id : Long) = viewModelScope.launch {
+    fun edit(id: Long) = viewModelScope.launch {
         _id.value = id
     }
 
     fun create(activity: Activity) = viewModelScope.launch {
-        val id : Long = repository.create(activity)
+        val id: Long = repository.create(activity)
         _id.value = id
     }
 }

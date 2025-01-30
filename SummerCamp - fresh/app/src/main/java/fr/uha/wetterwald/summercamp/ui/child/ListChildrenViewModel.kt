@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.uha.hassenforder.android.viewmodel.Result
-import fr.uha.wetterwald.summercamp.database.ActivityUpdateDTO
 import fr.uha.wetterwald.summercamp.model.Child
 import fr.uha.wetterwald.summercamp.repository.ChildRepository
 import kotlinx.coroutines.flow.Flow
@@ -16,18 +15,18 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ListChildrenViewModel @Inject constructor (
+class ListChildrenViewModel @Inject constructor(
     private val repository: ChildRepository
 ) : ViewModel() {
 
-    private val _children : Flow<List<Child>> = repository.getAll()
+    private val _children: Flow<List<Child>> = repository.getAll()
 
-    data class UIState (
-        val children : List<Child>
+    data class UIState(
+        val children: List<Child>
     )
 
-    val uiState : StateFlow<Result<UIState>> = _children
-        .map { list : List<Child> ->
+    val uiState: StateFlow<Result<UIState>> = _children
+        .map { list: List<Child> ->
             Result.Success(UIState(list))
         }
         .stateIn(
@@ -40,7 +39,7 @@ class ListChildrenViewModel @Inject constructor (
         data class OnDelete(val child: Child) : UIEvent()
     }
 
-    fun send (uiEvent : UIEvent) {
+    fun send(uiEvent: UIEvent) {
         viewModelScope.launch {
             when (uiEvent) {
                 is UIEvent.OnDelete -> onDelete(uiEvent.child)
@@ -48,7 +47,7 @@ class ListChildrenViewModel @Inject constructor (
         }
     }
 
-    fun onDelete (child: Child) = viewModelScope.launch {
+    fun onDelete(child: Child) = viewModelScope.launch {
         repository.delete(child)
     }
 

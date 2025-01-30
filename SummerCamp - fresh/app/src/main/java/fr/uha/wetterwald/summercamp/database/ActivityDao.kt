@@ -18,7 +18,7 @@ interface ActivityDao {
     fun create(activity: Activity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun update(activity: Activity) : Long
+    fun update(activity: Activity): Long
 
     @Delete
     fun delete(activity: Activity)
@@ -42,20 +42,20 @@ interface ActivityDao {
     suspend fun deleteChild(assoc: ActivityChildAssociation)
 
     @Update(entity = Activity::class)
-    suspend fun update (activity: ActivityUpdateDTO.Name)
+    suspend fun update(activity: ActivityUpdateDTO.Name)
 
     @Update(entity = Activity::class)
-    suspend fun update (activity: ActivityUpdateDTO.Description)
+    suspend fun update(activity: ActivityUpdateDTO.Description)
 
     @Update(entity = Activity::class)
-    suspend fun update (activity: ActivityUpdateDTO.MaxParticipants)
+    suspend fun update(activity: ActivityUpdateDTO.MaxParticipants)
 
     @Update(entity = Activity::class)
-    suspend fun update (activity: ActivityUpdateDTO.Location)
+    suspend fun update(activity: ActivityUpdateDTO.Location)
 
     @Update(entity = Activity::class)
-    suspend fun update (activity: ActivityUpdateDTO.Period)
+    suspend fun update(activity: ActivityUpdateDTO.Period)
 
     @Update(entity = Activity::class)
-    suspend fun update (activity: ActivityUpdateDTO.Specialty)
+    suspend fun update(activity: ActivityUpdateDTO.Specialty)
 }

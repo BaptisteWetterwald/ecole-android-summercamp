@@ -2,7 +2,6 @@ package fr.uha.wetterwald.summercamp.repository
 
 import androidx.annotation.WorkerThread
 import fr.uha.wetterwald.summercamp.database.SupervisorDao
-import fr.uha.wetterwald.summercamp.model.Child
 import fr.uha.wetterwald.summercamp.model.Supervisor
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -13,31 +12,31 @@ class SupervisorRepository(
     private val ioDispatcher: CoroutineDispatcher
 ) {
 
-    fun getAll () : Flow<List<Supervisor>> {
+    fun getAll(): Flow<List<Supervisor>> {
         return supervisorDao.getAll()
     }
 
-    fun getSupervisorById (id : Long) : Flow<Supervisor?> {
+    fun getSupervisorById(id: Long): Flow<Supervisor?> {
         return supervisorDao.getSupervisorById(id)
     }
 
     @WorkerThread
-    suspend fun create(supervisor: Supervisor) : Long = withContext(ioDispatcher){
+    suspend fun create(supervisor: Supervisor): Long = withContext(ioDispatcher) {
         return@withContext supervisorDao.create(supervisor)
     }
 
     @WorkerThread
-    suspend fun update(supervisor: Supervisor) : Long = withContext(ioDispatcher){
+    suspend fun update(supervisor: Supervisor): Long = withContext(ioDispatcher) {
         return@withContext supervisorDao.update(supervisor)
     }
 
     @WorkerThread
-    suspend fun upsert(supervisor: Supervisor) : Long = withContext(ioDispatcher){
+    suspend fun upsert(supervisor: Supervisor): Long = withContext(ioDispatcher) {
         return@withContext supervisorDao.update(supervisor)
     }
 
     @WorkerThread
-    suspend fun delete(supervisor: Supervisor) = withContext(ioDispatcher){
+    suspend fun delete(supervisor: Supervisor) = withContext(ioDispatcher) {
         supervisorDao.delete(supervisor)
     }
 }

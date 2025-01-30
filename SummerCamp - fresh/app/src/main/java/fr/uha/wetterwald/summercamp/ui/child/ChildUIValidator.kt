@@ -6,7 +6,7 @@ import fr.uha.wetterwald.summercamp.R
 import fr.uha.wetterwald.summercamp.model.Specialty
 import kotlinx.coroutines.flow.StateFlow
 
-class ChildUIValidator (private val uiState : StateFlow<Result<ChildViewModel.UIState>>) {
+class ChildUIValidator(private val uiState: StateFlow<Result<ChildViewModel.UIState>>) {
 
     fun validateFirstname(newValue: String): Int? {
         return when {
@@ -58,7 +58,7 @@ class ChildUIValidator (private val uiState : StateFlow<Result<ChildViewModel.UI
     }
 
     @Suppress("SameReturnValue", "unused")
-    fun validatePictureChange(newValue: Uri?) : Int? {
+    fun validatePictureChange(newValue: Uri?): Int? {
         return null
     }
 

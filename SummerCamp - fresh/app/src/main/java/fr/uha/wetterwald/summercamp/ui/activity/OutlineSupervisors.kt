@@ -18,36 +18,38 @@ import androidx.compose.ui.Modifier
 import fr.uha.hassenforder.android.R
 import fr.uha.hassenforder.android.ui.field.FieldWrapper
 import fr.uha.hassenforder.android.ui.field.OutlinedDecorator
+import fr.uha.wetterwald.summercamp.model.Specialty
 import fr.uha.wetterwald.summercamp.model.Supervisor
 
 @Composable
 fun OutlineSupervisorsField(
     value: List<Supervisor>,
-    onAddMember : (Supervisor) -> Unit,
-    onRemoveMember : (Supervisor) -> Unit,
+    onAddMember: (Supervisor) -> Unit,
+    onRemoveMember: (Supervisor) -> Unit,
     modifier: Modifier,
     labelId: Int?,
     errorId: Int?,
     activityPeriod: String,
+    activitySpecialty: Specialty,
 ) {
-    val showDialog =  remember { mutableStateOf(false) }
+    val showDialog = remember { mutableStateOf(false) }
 
     if (showDialog.value) {
-        if (showDialog.value) {
-            SupervisorPicker (
-                titleId = R.string.select_supervisor,
-                activityPeriod = activityPeriod, // Ajout de l'heure de l'activité
-                onSelect = { showDialog.value = false; if (it != null) onAddMember(it) }
-            )
-        }
+        SupervisorPicker(
+            titleId = R.string.select_supervisor,
+            activityPeriod = activityPeriod, // Passage de la période
+            activitySpecialty = activitySpecialty, // Passage de la spécialité
+            onSelect = { showDialog.value = false; if (it != null) onAddMember(it) }
+        )
     }
 
-    OutlinedDecorator (
+
+    OutlinedDecorator(
         modifier = modifier,
         labelId = labelId,
         errorId = errorId,
     ) {
-        Scaffold (
+        Scaffold(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = { showDialog.value = true },
@@ -61,9 +63,8 @@ fun OutlineSupervisorsField(
                 items(
                     items = value,
                     key = { supervisor -> supervisor.supervisorId }
-                ) {
-                        item ->
-                    Box (
+                ) { item ->
+                    Box(
                         modifier = Modifier.clickable(
                             onClick = { onRemoveMember(item) }
                         )
@@ -79,7 +80,8 @@ fun OutlineSupervisorsField(
 @Composable
 fun OutlinedSupervisorsFieldWrapper(
     field: FieldWrapper<List<Supervisor>>,
-    activityPeriod: FieldWrapper<String>, // Ajout de la période d'activité
+    activityPeriod: FieldWrapper<String>, // Période d'activité
+    activitySpecialty: FieldWrapper<Specialty>, // Spécialité requise
     onAddMember: (Supervisor) -> Unit,
     onRemoveMember: (Supervisor) -> Unit,
     modifier: Modifier = Modifier,
@@ -88,6 +90,8 @@ fun OutlinedSupervisorsFieldWrapper(
     OutlineSupervisorsField(
         value = field.value ?: emptyList(),
         activityPeriod = activityPeriod.value ?: "",
+        activitySpecialty = activitySpecialty.value
+            ?: Specialty.OTHER, // Spécialité par défaut si null
         onAddMember = onAddMember,
         onRemoveMember = onRemoveMember,
         modifier = modifier,

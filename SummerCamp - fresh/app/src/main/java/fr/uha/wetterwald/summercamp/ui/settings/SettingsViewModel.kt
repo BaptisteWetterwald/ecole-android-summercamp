@@ -11,18 +11,18 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor (
+class SettingsViewModel @Inject constructor(
     private val database: AppDatabase,
     private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
-    fun onClear () = viewModelScope.launch {
+    fun onClear() = viewModelScope.launch {
         withContext(dispatcher) {
             DbInitializer(database).clearDatabase()
         }
     }
 
-    fun onFill () = viewModelScope.launch {
+    fun onFill() = viewModelScope.launch {
         withContext(dispatcher) {
             DbInitializer(database).populate()
         }

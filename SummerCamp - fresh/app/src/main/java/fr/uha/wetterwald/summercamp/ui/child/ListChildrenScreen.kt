@@ -40,17 +40,16 @@ import fr.uha.hassenforder.android.ui.app.UITitleState
 import fr.uha.wetterwald.summercamp.R
 import fr.uha.wetterwald.summercamp.model.Child
 import fr.uha.wetterwald.summercamp.model.Gender
-import fr.uha.wetterwald.summercamp.ui.child.ListChildrenViewModel
 
 @Destination<RootGraph>
 @Composable
-fun ListChildrenScreen (
-    vm : ListChildrenViewModel = hiltViewModel(),
+fun ListChildrenScreen(
+    vm: ListChildrenViewModel = hiltViewModel(),
     navigator: DestinationsNavigator
 ) {
     val uiState by vm.uiState.collectAsStateWithLifecycle()
 
-    Scaffold (
+    Scaffold(
         topBar = { AppTopBar(UITitleState(screenNameId = R.string.list_children)) },
         floatingActionButton = {
             FloatingActionButton(
@@ -69,7 +68,7 @@ fun ListChildrenScreen (
                 SuccessListChildrenScreen(
                     content,
                     navigator,
-                    { vm.send (it) },
+                    { vm.send(it) },
                     Modifier.fillMaxHeight()
                 )
             }
@@ -78,7 +77,7 @@ fun ListChildrenScreen (
 }
 
 @Composable
-fun SuccessListChildrenScreen (
+fun SuccessListChildrenScreen(
     uiState: ListChildrenViewModel.UIState,
     navigator: DestinationsNavigator,
     send: (ListChildrenViewModel.UIEvent) -> Unit,
@@ -89,24 +88,24 @@ fun SuccessListChildrenScreen (
             items = uiState.children,
             key = { item -> item.childId }
         ) { item ->
-            SwipeableItem (
-                onEdit = { navigator.navigate(EditChildScreenDestination(item.childId))},
+            SwipeableItem(
+                onEdit = { navigator.navigate(EditChildScreenDestination(item.childId)) },
                 onDelete = { send(ListChildrenViewModel.UIEvent.OnDelete(item)) }
             ) {
-                ChildItem (item)
+                ChildItem(item)
             }
         }
     }
 }
 
 @Composable
-fun ChildItem (child: Child) {
-    val gender : ImageVector =
-        when(child.gender) {
+fun ChildItem(child: Child) {
+    val gender: ImageVector =
+        when (child.gender) {
             Gender.FEMALE -> Icons.Outlined.Female
             Gender.MALE -> Icons.Outlined.Male
         }
-    ListItem (
+    ListItem(
         headlineContent = {
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(child.firstname)
@@ -114,7 +113,7 @@ fun ChildItem (child: Child) {
             }
         },
         supportingContent = {
-            Row (
+            Row(
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -123,7 +122,11 @@ fun ChildItem (child: Child) {
             }
         },
         trailingContent = {
-            Icon(imageVector = gender, contentDescription = "gender", modifier = Modifier.size(48.dp))
+            Icon(
+                imageVector = gender,
+                contentDescription = "gender",
+                modifier = Modifier.size(32.dp)
+            )
         }
     )
 }

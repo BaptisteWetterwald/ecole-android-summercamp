@@ -9,6 +9,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
@@ -21,13 +22,13 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
-class ChildPickerViewModel @Inject constructor (private val dao: ChildDao): ViewModel() {
+class ChildPickerViewModel @Inject constructor(private val dao: ChildDao) : ViewModel() {
     val children: Flow<List<Child>> = dao.getAll()
 }
 
 @Composable
 fun ChildPicker(
-    vm : ChildPickerViewModel = hiltViewModel(),
+    vm: ChildPickerViewModel = hiltViewModel(),
     titleId: Int,
     onSelect: (Child?) -> Unit,
 ) {
@@ -36,7 +37,7 @@ fun ChildPicker(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { AppTitle(screenTitleId = titleId) },
+                    title = { AppTitle(screenTitleId = titleId, color = Color.White) },
                 )
             }
         ) { innerPadding ->
@@ -46,9 +47,8 @@ fun ChildPicker(
                 items(
                     items = children.value,
                     key = { child -> child.childId }
-                ) {
-                        item ->
-                    Box (
+                ) { item ->
+                    Box(
                         modifier = Modifier.clickable(
                             onClick = { onSelect(item) }
                         )

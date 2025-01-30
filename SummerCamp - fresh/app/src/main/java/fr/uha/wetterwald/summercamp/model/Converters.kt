@@ -1,6 +1,5 @@
 package fr.uha.wetterwald.summercamp.model
 
-import android.util.Log
 import androidx.room.TypeConverter
 
 class Converters {

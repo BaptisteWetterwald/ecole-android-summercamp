@@ -2,12 +2,10 @@ package fr.uha.wetterwald.summercamp.ui
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.BikeScooter
 import androidx.compose.material.icons.filled.Celebration
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Sports
 import androidx.compose.material.icons.outlined.Celebration
 import androidx.compose.material.icons.outlined.Group
 import androidx.compose.material.icons.outlined.Home
@@ -20,9 +18,7 @@ import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.generated.NavGraphs
 import com.ramcosta.composedestinations.generated.destinations.GreetingScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.ListActivitiesScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.ListChildrenScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.ListPersonsScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.ListSupervisorsScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SettingsScreenDestination
 import fr.uha.hassenforder.android.model.IconPicture
 import fr.uha.hassenforder.android.model.IconRender
@@ -33,7 +29,7 @@ import fr.uha.wetterwald.summercamp.R
 @Composable
 fun SummerCampAppScreen(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
-    Scaffold (
+    Scaffold(
         bottomBar = {
             AppBottomBar(
                 navController,

@@ -27,16 +27,16 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun activityDao(): ActivityDao
 
     companion object {
-        private lateinit var instance : AppDatabase
+        private lateinit var instance: AppDatabase
 
-        fun create (context : Context) : AppDatabase {
+        fun create(context: Context): AppDatabase {
             instance = Room.databaseBuilder(context, AppDatabase::class.java, "summer-camp.db")
                 .fallbackToDestructiveMigration()
                 .build()
             return instance
         }
 
-        fun get() : AppDatabase {
+        fun get(): AppDatabase {
             return instance
         }
     }

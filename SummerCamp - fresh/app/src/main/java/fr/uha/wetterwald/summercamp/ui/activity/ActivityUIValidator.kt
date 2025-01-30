@@ -6,65 +6,65 @@ import fr.uha.wetterwald.summercamp.model.FullActivity
 import fr.uha.wetterwald.summercamp.model.Specialty
 import fr.uha.wetterwald.summercamp.model.Supervisor
 
-class ActivityUIValidator (private val activity : FullActivity) {
+class ActivityUIValidator(private val activity: FullActivity) {
 
-    fun validateName(newValue: String) : Int? {
+    fun validateName(newValue: String): Int? {
         return when {
-            newValue.isEmpty()  ->  R.string.value_empty
-            newValue.isBlank()  ->  R.string.value_blank
-            newValue.length < 3 ->  R.string.value_too_short
+            newValue.isEmpty() -> R.string.value_empty
+            newValue.isBlank() -> R.string.value_blank
+            newValue.length < 3 -> R.string.value_too_short
             else -> null
         }
     }
 
-    fun validateDescription(newValue: String) : Int? {
+    fun validateDescription(newValue: String): Int? {
         return when {
-            newValue.isEmpty()  ->  R.string.value_empty
-            newValue.isBlank()  ->  R.string.value_blank
-            newValue.length < 3 ->  R.string.value_too_short
+            newValue.isEmpty() -> R.string.value_empty
+            newValue.isBlank() -> R.string.value_blank
+            newValue.length < 3 -> R.string.value_too_short
             else -> null
         }
     }
 
-    fun validateMaxParticipants(newValue: Int) : Int? {
+    fun validateMaxParticipants(newValue: Int): Int? {
         return when {
-            newValue < 1 ->  R.string.value_too_short
-            newValue > 100 ->  R.string.value_too_long
+            newValue < 1 -> R.string.value_too_short
+            newValue > 100 -> R.string.value_too_long
             else -> null
         }
     }
 
-    fun validateLocation(newValue: String) : Int? {
+    fun validateLocation(newValue: String): Int? {
         return when {
-            newValue.isEmpty()  ->  R.string.value_empty
-            newValue.isBlank()  ->  R.string.value_blank
-            newValue.length < 3 ->  R.string.value_too_short
+            newValue.isEmpty() -> R.string.value_empty
+            newValue.isBlank() -> R.string.value_blank
+            newValue.length < 3 -> R.string.value_too_short
             else -> null
         }
     }
 
-    fun validateSpecialty(newValue: Specialty) : Int? {
+    fun validateSpecialty(newValue: Specialty): Int? {
         return when {
-            newValue.name.isEmpty() ->  R.string.value_empty
+            newValue.name.isEmpty() -> R.string.value_empty
             else -> null
         }
     }
 
-    fun validateChildren(newValue: List<Child>) : Int? {
+    fun validateChildren(newValue: List<Child>): Int? {
         return when {
-            newValue.isEmpty() ->  R.string.value_empty
+            newValue.isEmpty() -> R.string.value_empty
             else -> null
         }
     }
 
-    fun validateSupervisors(newValue: List<Supervisor>) : Int? {
+    fun validateSupervisors(newValue: List<Supervisor>): Int? {
         return when {
-            newValue.isEmpty() ->  R.string.value_empty
+            newValue.isEmpty() -> R.string.value_empty
             else -> null
         }
     }
 
-    fun validatePeriod(newValue: String) : Int? {
+    fun validatePeriod(newValue: String): Int? {
         // 25/01/2025 10:00-12:00
         if (newValue.isEmpty()) return R.string.date_must_set
         if (newValue.isBlank()) return R.string.date_must_set
@@ -89,24 +89,24 @@ class ActivityUIValidator (private val activity : FullActivity) {
         val minuteEnd = end[1].toIntOrNull() ?: return R.string.minute_out_of_range
 
         return when {
-            day < 1 ->  R.string.day_out_of_range
-            day > 31 ->  R.string.day_out_of_range
-            month < 1 ->  R.string.month_out_of_range
-            month > 12 ->  R.string.month_out_of_range
-            year < 2025 ->  R.string.year_out_of_range
-            hour < 0 ->  R.string.hour_out_of_range
-            hour > 23 ->  R.string.hour_out_of_range
-            minute < 0 ->  R.string.minute_out_of_range
-            minute > 59 ->  R.string.minute_out_of_range
-            hourEnd < 0 ->  R.string.hour_out_of_range
-            hourEnd > 23 ->  R.string.hour_out_of_range
-            minuteEnd < 0 ->  R.string.minute_out_of_range
-            minuteEnd > 59 ->  R.string.minute_out_of_range
+            day < 1 -> R.string.day_out_of_range
+            day > 31 -> R.string.day_out_of_range
+            month < 1 -> R.string.month_out_of_range
+            month > 12 -> R.string.month_out_of_range
+            year < 2025 -> R.string.year_out_of_range
+            hour < 0 -> R.string.hour_out_of_range
+            hour > 23 -> R.string.hour_out_of_range
+            minute < 0 -> R.string.minute_out_of_range
+            minute > 59 -> R.string.minute_out_of_range
+            hourEnd < 0 -> R.string.hour_out_of_range
+            hourEnd > 23 -> R.string.hour_out_of_range
+            minuteEnd < 0 -> R.string.minute_out_of_range
+            minuteEnd > 59 -> R.string.minute_out_of_range
             else -> null
         }
     }
 
-    fun validateActivity () : Boolean {
+    fun validateActivity(): Boolean {
         if (validateName(this@ActivityUIValidator.activity.activity.name) != null) return false
         if (validateDescription(this@ActivityUIValidator.activity.activity.description) != null) return false
         if (validateMaxParticipants(this@ActivityUIValidator.activity.activity.maxParticipants) != null) return false

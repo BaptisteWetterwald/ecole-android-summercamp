@@ -24,28 +24,28 @@ import fr.uha.wetterwald.summercamp.model.Child
 @Composable
 fun OutlineChildrenField(
     value: List<Child>,
-    onAddMember : (Child) -> Unit,
-    onRemoveMember : (Child) -> Unit,
+    onAddMember: (Child) -> Unit,
+    onRemoveMember: (Child) -> Unit,
     maxParticipants: Int,
     modifier: Modifier,
     labelId: Int?,
     errorId: Int?
 ) {
-    val showDialog =  remember { mutableStateOf(false) }
+    val showDialog = remember { mutableStateOf(false) }
     val isFull = value.size >= maxParticipants
 
     if (showDialog.value) {
-        ChildPicker (
+        ChildPicker(
             titleId = R.string.select_child,
         ) { showDialog.value = false; if (it != null) onAddMember(it) }
     }
 
-    OutlinedDecorator (
+    OutlinedDecorator(
         modifier = modifier,
         labelId = labelId,
         errorId = errorId,
     ) {
-        Scaffold (
+        Scaffold(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = { if (!isFull) showDialog.value = true },
@@ -64,9 +64,8 @@ fun OutlineChildrenField(
                 items(
                     items = value,
                     key = { child -> child.childId }
-                ) {
-                        item ->
-                    Box (
+                ) { item ->
+                    Box(
                         modifier = Modifier.clickable(
                             onClick = { onRemoveMember(item) }
                         )
@@ -80,13 +79,13 @@ fun OutlineChildrenField(
 }
 
 @Composable
-fun OutlinedChildrenFieldWrapper (
-    field : FieldWrapper<List<Child>>,
-    onAddMember : (Child) -> Unit,
-    onRemoveMember : (Child) -> Unit,
+fun OutlinedChildrenFieldWrapper(
+    field: FieldWrapper<List<Child>>,
+    onAddMember: (Child) -> Unit,
+    onRemoveMember: (Child) -> Unit,
     maxParticipants: FieldWrapper<Int>,
-    modifier : Modifier = Modifier,
-    @StringRes labelId : Int? = null,
+    modifier: Modifier = Modifier,
+    @StringRes labelId: Int? = null,
 ) {
     OutlineChildrenField(
         value = field.value ?: emptyList(),

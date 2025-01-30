@@ -15,20 +15,27 @@ import fr.uha.wetterwald.summercamp.model.Specialty
 
 @Destination<RootGraph>
 @Composable
-fun CreateActivityScreen (
-    vm : ActivityViewModel = hiltViewModel(),
-    navigator : DestinationsNavigator
+fun CreateActivityScreen(
+    vm: ActivityViewModel = hiltViewModel(),
+    navigator: DestinationsNavigator
 ) {
     val uiState by vm.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         vm.create(
-            Activity(0, "Name", "Description", 5, "Location", "01/01/2025 10:00-12:00", Specialty.OTHER)
+            Activity(
+                0,
+                "Name",
+                "Description",
+                5,
+                "Location",
+                "01/01/2025 10:00-12:00",
+                Specialty.OTHER
+            )
         )
         vm.titleBuilder.setScreenNameId(R.string.create_activity)
     }
-    StateScreen(state = uiState) {
-            content ->
+    StateScreen(state = uiState) { content ->
         SuccessActivityScreen(content, { vm.send(it) })
     }
 

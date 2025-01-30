@@ -57,14 +57,26 @@ class ActivityRepository(
     }
 
     @WorkerThread
-    suspend fun addSupervisor(activityId: Long, supervisor: Supervisor) = withContext(ioDispatcher) {
-        activityDao.addSupervisor(ActivitySupervisorAssociation(supervisor.supervisorId, activityId))
-    }
+    suspend fun addSupervisor(activityId: Long, supervisor: Supervisor) =
+        withContext(ioDispatcher) {
+            activityDao.addSupervisor(
+                ActivitySupervisorAssociation(
+                    supervisor.supervisorId,
+                    activityId
+                )
+            )
+        }
 
     @WorkerThread
-    suspend fun removeSupervisor(activityId: Long, supervisor: Supervisor) = withContext(ioDispatcher) {
-        activityDao.deleteSupervisor(ActivitySupervisorAssociation(supervisor.supervisorId, activityId))
-    }
+    suspend fun removeSupervisor(activityId: Long, supervisor: Supervisor) =
+        withContext(ioDispatcher) {
+            activityDao.deleteSupervisor(
+                ActivitySupervisorAssociation(
+                    supervisor.supervisorId,
+                    activityId
+                )
+            )
+        }
 
     @WorkerThread
     suspend fun addChild(activityId: Long, child: Child) = withContext(ioDispatcher) {

@@ -12,31 +12,31 @@ class ChildRepository(
     private val ioDispatcher: CoroutineDispatcher
 ) {
 
-    fun getAll () : Flow<List<Child>> {
+    fun getAll(): Flow<List<Child>> {
         return childDao.getAll()
     }
 
-    fun getChildById (id : Long) : Flow<Child?> {
+    fun getChildById(id: Long): Flow<Child?> {
         return childDao.getChildById(id)
     }
 
     @WorkerThread
-    suspend fun create(child: Child) : Long = withContext(ioDispatcher){
+    suspend fun create(child: Child): Long = withContext(ioDispatcher) {
         return@withContext childDao.create(child)
     }
 
     @WorkerThread
-    suspend fun update(child: Child) : Long = withContext(ioDispatcher){
+    suspend fun update(child: Child): Long = withContext(ioDispatcher) {
         return@withContext childDao.update(child)
     }
 
     @WorkerThread
-    suspend fun upsert(child: Child) : Long = withContext(ioDispatcher){
+    suspend fun upsert(child: Child): Long = withContext(ioDispatcher) {
         return@withContext childDao.update(child)
     }
 
     @WorkerThread
-    suspend fun delete(child: Child) = withContext(ioDispatcher){
+    suspend fun delete(child: Child) = withContext(ioDispatcher) {
         childDao.delete(child)
     }
 }

@@ -21,24 +21,24 @@ import fr.uha.wetterwald.summercamp.model.Gender
 import fr.uha.wetterwald.summercamp.model.Supervisor
 
 @Composable
-fun ActivitySupervisor (
+fun ActivitySupervisor(
     supervisor: Supervisor,
     modifier: Modifier = Modifier,
 ) {
-    val gender : ImageVector =
-        when(supervisor.gender) {
+    val gender: ImageVector =
+        when (supervisor.gender) {
             Gender.FEMALE -> Icons.Outlined.Female
             Gender.MALE -> Icons.Outlined.Male
         }
-    ListItem (
+    ListItem(
         headlineContent = {
             Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(supervisor.firstname)
-                Text(supervisor.lastname)
+                Text(supervisor.firstname, fontSize = 12.sp)
+                Text(supervisor.lastname, fontSize = 12.sp)
             }
         },
         supportingContent = {
-            Row (
+            Row(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -47,7 +47,11 @@ fun ActivitySupervisor (
             }
         },
         trailingContent = {
-            Icon(imageVector = gender, contentDescription = "gender", modifier = Modifier.size(32.dp))
+            Icon(
+                imageVector = gender,
+                contentDescription = "gender",
+                modifier = Modifier.size(32.dp)
+            )
         }
     )
 }

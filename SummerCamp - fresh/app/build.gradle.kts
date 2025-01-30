@@ -34,8 +34,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.valueOf("VERSION_"+libs.versions.java.get())
-        targetCompatibility = JavaVersion.valueOf("VERSION_"+libs.versions.java.get())
+        sourceCompatibility = JavaVersion.valueOf("VERSION_" + libs.versions.java.get())
+        targetCompatibility = JavaVersion.valueOf("VERSION_" + libs.versions.java.get())
     }
     kotlinOptions {
         jvmTarget = libs.versions.java.get()

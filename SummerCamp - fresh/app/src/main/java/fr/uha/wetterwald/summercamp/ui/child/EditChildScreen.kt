@@ -19,14 +19,13 @@ import fr.uha.hassenforder.android.ui.StateScreen
 import fr.uha.hassenforder.android.ui.app.AppMenuEntry
 import fr.uha.hassenforder.android.ui.app.AppTopBar
 import fr.uha.wetterwald.summercamp.R
-import fr.uha.wetterwald.summercamp.ui.person.SuccessSupervisorScreen
 
 @Destination<RootGraph>
 @Composable
-fun EditChildScreen (
-    vm : ChildViewModel = hiltViewModel(),
-    navigator : DestinationsNavigator,
-    pid : Long
+fun EditChildScreen(
+    vm: ChildViewModel = hiltViewModel(),
+    navigator: DestinationsNavigator,
+    pid: Long
 ) {
     val uiState by vm.uiState.collectAsStateWithLifecycle()
     val uiTitleState by vm.uiTitleState.collectAsStateWithLifecycle()
@@ -39,7 +38,7 @@ fun EditChildScreen (
         AppMenuEntry.ActionEntry(
             titleId = R.string.save,
             icon = Icons.Filled.Save,
-            enabled = { uiTitleState.isSavable ?: false},
+            enabled = { uiTitleState.isSavable ?: false },
             listener = { vm.save(); navigator.popBackStack() }
         )
     )
@@ -53,8 +52,7 @@ fun EditChildScreen (
         Column(
             modifier = Modifier.padding(innerPadding)
         ) {
-            StateScreen(state = uiState) {
-                    content ->
+            StateScreen(state = uiState) { content ->
                 SuccessChildScreen(content, { vm.send(it) })
             }
         }

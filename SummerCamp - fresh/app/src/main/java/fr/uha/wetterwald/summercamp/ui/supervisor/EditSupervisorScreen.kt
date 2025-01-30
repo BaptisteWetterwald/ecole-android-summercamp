@@ -24,10 +24,10 @@ import fr.uha.wetterwald.summercamp.ui.person.SupervisorViewModel
 
 @Destination<RootGraph>
 @Composable
-fun EditSupervisorScreen (
-    vm : SupervisorViewModel = hiltViewModel(),
-    navigator : DestinationsNavigator,
-    pid : Long
+fun EditSupervisorScreen(
+    vm: SupervisorViewModel = hiltViewModel(),
+    navigator: DestinationsNavigator,
+    pid: Long
 ) {
     val uiState by vm.uiState.collectAsStateWithLifecycle()
     val uiTitleState by vm.uiTitleState.collectAsStateWithLifecycle()
@@ -40,7 +40,7 @@ fun EditSupervisorScreen (
         AppMenuEntry.ActionEntry(
             titleId = R.string.save,
             icon = Icons.Filled.Save,
-            enabled = { uiTitleState.isSavable ?: false},
+            enabled = { uiTitleState.isSavable ?: false },
             listener = { vm.save(); navigator.popBackStack() }
         )
     )
@@ -54,8 +54,7 @@ fun EditSupervisorScreen (
         Column(
             modifier = Modifier.padding(innerPadding)
         ) {
-            StateScreen(state = uiState) {
-                    content ->
+            StateScreen(state = uiState) { content ->
                 SuccessSupervisorScreen(content, { vm.send(it) })
             }
         }

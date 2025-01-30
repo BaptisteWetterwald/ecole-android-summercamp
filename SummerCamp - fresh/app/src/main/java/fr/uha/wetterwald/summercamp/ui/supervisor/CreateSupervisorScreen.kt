@@ -1,6 +1,5 @@
 package fr.uha.wetterwald.summercamp.ui.person
 
-import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -26,16 +25,26 @@ import fr.uha.wetterwald.summercamp.model.Supervisor
 
 @Destination<RootGraph>
 @Composable
-fun CreateSupervisorScreen (
-    vm : SupervisorViewModel = hiltViewModel(),
-    navigator : DestinationsNavigator
+fun CreateSupervisorScreen(
+    vm: SupervisorViewModel = hiltViewModel(),
+    navigator: DestinationsNavigator
 ) {
     val uiState by vm.uiState.collectAsStateWithLifecycle()
     val uiTitleState by vm.uiTitleState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         vm.create(
-            Supervisor(0, "Baptiste", "Wetterwald", 24, Gender.MALE, null, "0612345678", listOf<Specialty>(Specialty.SPORTS, Specialty.GAMES, Specialty.SCIENCE), "01/01/2025 10:00-12:00")
+            Supervisor(
+                0,
+                "Baptiste",
+                "Wetterwald",
+                24,
+                Gender.MALE,
+                null,
+                "0612345678",
+                listOf<Specialty>(Specialty.SPORTS, Specialty.GAMES, Specialty.SCIENCE),
+                "01/01/2025 10:00-12:00"
+            )
         )
         vm.titleBuilder.setScreenNameId(R.string.create_supervisor)
     }
@@ -44,7 +53,7 @@ fun CreateSupervisorScreen (
         AppMenuEntry.ActionEntry(
             titleId = R.string.save,
             icon = Icons.Filled.Save,
-            enabled = { uiTitleState.isSavable ?: false},
+            enabled = { uiTitleState.isSavable ?: false },
             listener = { vm.save(); navigator.popBackStack() }
         )
     )
@@ -59,8 +68,7 @@ fun CreateSupervisorScreen (
         Column(
             modifier = Modifier.padding(innerPadding)
         ) {
-            StateScreen(state = uiState) {
-                    content ->
+            StateScreen(state = uiState) { content ->
                 SuccessSupervisorScreen(content, { vm.send(it) })
             }
         }

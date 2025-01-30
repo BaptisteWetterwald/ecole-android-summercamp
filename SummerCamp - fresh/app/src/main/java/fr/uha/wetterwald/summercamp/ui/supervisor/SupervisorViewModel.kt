@@ -19,9 +19,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SupervisorViewModel @Inject constructor (
+class SupervisorViewModel @Inject constructor(
     private val repository: SupervisorRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _id: MutableStateFlow<Long> = MutableStateFlow(0)
 
@@ -37,8 +37,8 @@ class SupervisorViewModel @Inject constructor (
     @OptIn(ExperimentalCoroutinesApi::class)
     private val _initialSupervisorState: StateFlow<Result<Supervisor>> = _id
         .flatMapLatest { id -> repository.getSupervisorById(id) }
-        .map {
-            supervisor -> if (supervisor != null) {
+        .map { supervisor ->
+            if (supervisor != null) {
                 _firstnameState.value = fieldBuilder.buildFirstname(supervisor.firstname)
                 _lastnameState.value = fieldBuilder.buildLastname(supervisor.lastname)
                 _ageState.value = fieldBuilder.buildAge(supervisor.age)
@@ -58,55 +58,70 @@ class SupervisorViewModel @Inject constructor (
     data class UIState(
         val args: Array<FieldWrapper<out Any>>,
     ) {
-        val firstnameState : FieldWrapper<String> = args[0] as FieldWrapper<String>
-        val lastnameState : FieldWrapper<String> = args[1] as FieldWrapper<String>
-        val ageState : FieldWrapper<Int> = args[2] as FieldWrapper<Int>
-        val genderState : FieldWrapper<Gender> = args[3] as FieldWrapper<Gender>
-        val pictureState : FieldWrapper<Uri> = args[4] as FieldWrapper<Uri>
-        val phoneState : FieldWrapper<String> = args[5] as FieldWrapper<String>
-        val specialtiesState : FieldWrapper<List<Specialty>> = args[6] as FieldWrapper<List<Specialty>>
-        val availabilityState : FieldWrapper<String> = args[7] as FieldWrapper<String>
+        val firstnameState: FieldWrapper<String> = args[0] as FieldWrapper<String>
+        val lastnameState: FieldWrapper<String> = args[1] as FieldWrapper<String>
+        val ageState: FieldWrapper<Int> = args[2] as FieldWrapper<Int>
+        val genderState: FieldWrapper<Gender> = args[3] as FieldWrapper<Gender>
+        val pictureState: FieldWrapper<Uri> = args[4] as FieldWrapper<Uri>
+        val phoneState: FieldWrapper<String> = args[5] as FieldWrapper<String>
+        val specialtiesState: FieldWrapper<List<Specialty>> =
+            args[6] as FieldWrapper<List<Specialty>>
+        val availabilityState: FieldWrapper<String> = args[7] as FieldWrapper<String>
     }
 
-    val uiState : StateFlow<Result<UIState>> = combine(
-        _firstnameState, _lastnameState, _ageState, _genderState, _pictureState, _phoneState, _specialtiesState, _availabilityState
-    ) { args : Array<FieldWrapper<out Any>> -> Result.Success(UIState(args)) }
+    val uiState: StateFlow<Result<UIState>> = combine(
+        _firstnameState,
+        _lastnameState,
+        _ageState,
+        _genderState,
+        _pictureState,
+        _phoneState,
+        _specialtiesState,
+        _availabilityState
+    ) { args: Array<FieldWrapper<out Any>> -> Result.Success(UIState(args)) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = Result.Loading
         )
 
-    private class FieldBuilder (private val validator : SupervisorUIValidator) {
+    private class FieldBuilder(private val validator: SupervisorUIValidator) {
         fun buildFirstname(newValue: String): FieldWrapper<String> {
-            val errorId : Int? = validator.validateFirstname(newValue)
+            val errorId: Int? = validator.validateFirstname(newValue)
             return FieldWrapper(newValue, errorId)
         }
+
         fun buildLastname(newValue: String): FieldWrapper<String> {
-            val errorId : Int? = validator.validateLastname(newValue)
+            val errorId: Int? = validator.validateLastname(newValue)
             return FieldWrapper(newValue, errorId)
         }
+
         fun buildAge(newValue: Int): FieldWrapper<Int> {
-            val errorId : Int? = validator.validateAge(newValue)
+            val errorId: Int? = validator.validateAge(newValue)
             return FieldWrapper(newValue, errorId)
         }
+
         fun buildGender(newValue: Gender): FieldWrapper<Gender> {
             return FieldWrapper(newValue, null)
         }
+
         fun buildPicture(newValue: Uri?): FieldWrapper<Uri> {
-            val errorId : Int? = validator.validatePictureChange(newValue)
+            val errorId: Int? = validator.validatePictureChange(newValue)
             return FieldWrapper(newValue, errorId)
         }
+
         fun buildPhone(newValue: String): FieldWrapper<String> {
-            val errorId : Int? = validator.validatePhone(newValue)
+            val errorId: Int? = validator.validatePhone(newValue)
             return FieldWrapper(newValue, errorId)
         }
+
         fun buildSpecialties(newValue: List<Specialty>): FieldWrapper<List<Specialty>> {
-            val errorId : Int? = validator.validateSpecialties(newValue)
+            val errorId: Int? = validator.validateSpecialties(newValue)
             return FieldWrapper(newValue, errorId)
         }
+
         fun buildAvailability(newValue: String): FieldWrapper<String> {
-            val errorId : Int? = validator.validateAvailability(newValue)
+            val errorId: Int? = validator.validateAvailability(newValue)
             return FieldWrapper(newValue, errorId)
         }
     }
@@ -115,13 +130,13 @@ class SupervisorViewModel @Inject constructor (
 
     val titleBuilder = UITitleBuilder()
 
-    val uiTitleState : StateFlow<UITitleState> = titleBuilder.uiTitleState.stateIn(
+    val uiTitleState: StateFlow<UITitleState> = titleBuilder.uiTitleState.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = UITitleState()
     )
 
-    private fun isModified (initial: Result<Supervisor>, fields : Result<UIState>): Boolean? {
+    private fun isModified(initial: Result<Supervisor>, fields: Result<UIState>): Boolean? {
         if (initial !is Result.Success) return null
         if (fields !is Result.Success) return null
         if (fields.content.firstnameState.value != initial.content.firstname) return true
@@ -135,7 +150,7 @@ class SupervisorViewModel @Inject constructor (
         return false
     }
 
-    private fun hasError (fields : Result<UIState>): Boolean? {
+    private fun hasError(fields: Result<UIState>): Boolean? {
         if (fields !is Result.Success) return null
         return fields.content.args.any { it.errorId != null }
     }
@@ -148,17 +163,17 @@ class SupervisorViewModel @Inject constructor (
     }
 
     sealed class UIEvent {
-        data class FirstnameChanged(val newValue: String): UIEvent()
-        data class LastnameChanged(val newValue: String): UIEvent()
-        data class AgeChanged(val newValue: Int): UIEvent()
-        data class GenderChanged(val newValue: Gender): UIEvent()
-        data class PictureChanged(val newValue: Uri?): UIEvent()
-        data class PhoneChanged(val newValue: String): UIEvent()
-        data class SpecialtiesChanged(val newValue: List<Specialty>): UIEvent()
-        data class AvailabilityChanged(val newValue: String): UIEvent()
+        data class FirstnameChanged(val newValue: String) : UIEvent()
+        data class LastnameChanged(val newValue: String) : UIEvent()
+        data class AgeChanged(val newValue: Int) : UIEvent()
+        data class GenderChanged(val newValue: Gender) : UIEvent()
+        data class PictureChanged(val newValue: Uri?) : UIEvent()
+        data class PhoneChanged(val newValue: String) : UIEvent()
+        data class SpecialtiesChanged(val newValue: List<Specialty>) : UIEvent()
+        data class AvailabilityChanged(val newValue: String) : UIEvent()
     }
 
-    fun send (uiEvent : UIEvent) {
+    fun send(uiEvent: UIEvent) {
         viewModelScope.launch {
             when (uiEvent) {
                 is UIEvent.FirstnameChanged -> _firstnameState.value =
@@ -190,12 +205,12 @@ class SupervisorViewModel @Inject constructor (
         }
     }
 
-    fun edit (pid : Long) = viewModelScope.launch {
+    fun edit(pid: Long) = viewModelScope.launch {
         _id.value = pid
     }
 
     fun create(supervisor: Supervisor) = viewModelScope.launch {
-        val pid : Long = repository.create(supervisor)
+        val pid: Long = repository.create(supervisor)
         _id.value = pid
     }
 
@@ -203,7 +218,7 @@ class SupervisorViewModel @Inject constructor (
         if (_initialSupervisorState.value !is Result.Success) return@launch
         if (uiState.value !is Result.Success) return@launch
         _initialSupervisorState.value as Result.Success
-        val supervisor = Supervisor (
+        val supervisor = Supervisor(
             _id.value,
             _firstnameState.value.value!!,
             _lastnameState.value.value!!,

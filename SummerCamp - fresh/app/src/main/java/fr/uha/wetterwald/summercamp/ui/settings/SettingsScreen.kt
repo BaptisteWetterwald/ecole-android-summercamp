@@ -18,11 +18,11 @@ import fr.uha.wetterwald.summercamp.R
 
 @Destination<RootGraph>
 @Composable
-fun SettingsScreen (
-    vm : SettingsViewModel = hiltViewModel(),
+fun SettingsScreen(
+    vm: SettingsViewModel = hiltViewModel(),
     navigator: DestinationsNavigator
 ) {
-    Scaffold (
+    Scaffold(
         topBar = { AppTopBar(UITitleState(screenNameId = R.string.settings)) },
     ) { innerPadding ->
         Column(

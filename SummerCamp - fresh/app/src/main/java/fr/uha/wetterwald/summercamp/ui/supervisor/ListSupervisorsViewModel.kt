@@ -15,18 +15,18 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ListSupervisorsViewModel @Inject constructor (
+class ListSupervisorsViewModel @Inject constructor(
     private val repository: SupervisorRepository
 ) : ViewModel() {
 
-    private val _supervisors : Flow<List<Supervisor>> = repository.getAll()
+    private val _supervisors: Flow<List<Supervisor>> = repository.getAll()
 
-    data class UIState (
-        val supervisors : List<Supervisor>
+    data class UIState(
+        val supervisors: List<Supervisor>
     )
 
-    val uiState : StateFlow<Result<UIState>> = _supervisors
-        .map { list : List<Supervisor> ->
+    val uiState: StateFlow<Result<UIState>> = _supervisors
+        .map { list: List<Supervisor> ->
             Result.Success(UIState(list))
         }
         .stateIn(
@@ -39,7 +39,7 @@ class ListSupervisorsViewModel @Inject constructor (
         data class OnDelete(val supervisor: Supervisor) : UIEvent()
     }
 
-    fun send (uiEvent : UIEvent) {
+    fun send(uiEvent: UIEvent) {
         viewModelScope.launch {
             when (uiEvent) {
                 is UIEvent.OnDelete -> onDelete(uiEvent.supervisor)
@@ -47,7 +47,7 @@ class ListSupervisorsViewModel @Inject constructor (
         }
     }
 
-    fun onDelete (supervisor: Supervisor) = viewModelScope.launch {
+    fun onDelete(supervisor: Supervisor) = viewModelScope.launch {
         repository.delete(supervisor)
     }
 

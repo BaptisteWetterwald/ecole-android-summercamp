@@ -7,7 +7,7 @@ import fr.uha.wetterwald.summercamp.model.Specialty
 import fr.uha.wetterwald.summercamp.ui.person.SupervisorViewModel
 import kotlinx.coroutines.flow.StateFlow
 
-class SupervisorUIValidator (private val uiState : StateFlow<Result<SupervisorViewModel.UIState>>) {
+class SupervisorUIValidator(private val uiState: StateFlow<Result<SupervisorViewModel.UIState>>) {
 
     fun validateFirstname(newValue: String): Int? {
         return when {
@@ -59,7 +59,7 @@ class SupervisorUIValidator (private val uiState : StateFlow<Result<SupervisorVi
     }
 
     @Suppress("SameReturnValue", "unused")
-    fun validatePictureChange(newValue: Uri?) : Int? {
+    fun validatePictureChange(newValue: Uri?): Int? {
         return null
     }
 

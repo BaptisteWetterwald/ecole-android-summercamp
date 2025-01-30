@@ -17,7 +17,7 @@ import fr.uha.wetterwald.summercamp.ui.field.OutlinedSpecialtyFieldWrapper
 @Composable
 fun SuccessActivityScreen(
     activity: ActivityViewModel.UIState,
-    send : (ActivityViewModel.UIEvent) -> Unit,
+    send: (ActivityViewModel.UIEvent) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -78,7 +78,9 @@ fun SuccessActivityScreen(
                     field = activity.children,
                     onAddMember = { send(ActivityViewModel.UIEvent.AddChild(it)) },
                     onRemoveMember = { send(ActivityViewModel.UIEvent.RemoveChild(it)) },
-                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight(),
                     labelId = R.string.list_children,
                     maxParticipants = activity.maxParticipants
                 )
@@ -86,9 +88,12 @@ fun SuccessActivityScreen(
                 OutlinedSupervisorsFieldWrapper(
                     field = activity.supervisors,
                     activityPeriod = activity.period, // Passage de la période
+                    activitySpecialty = activity.specialty, // Passage de la spécialité
                     onAddMember = { send(ActivityViewModel.UIEvent.AddSupervisor(it)) },
                     onRemoveMember = { send(ActivityViewModel.UIEvent.RemoveSupervisor(it)) },
-                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight(),
                     labelId = R.string.list_supervisors
                 )
 
