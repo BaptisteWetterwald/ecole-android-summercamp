@@ -85,11 +85,13 @@ fun SuccessActivityScreen(
 
                 OutlinedSupervisorsFieldWrapper(
                     field = activity.supervisors,
+                    activityPeriod = activity.period, // Passage de la période
                     onAddMember = { send(ActivityViewModel.UIEvent.AddSupervisor(it)) },
                     onRemoveMember = { send(ActivityViewModel.UIEvent.RemoveSupervisor(it)) },
                     modifier = Modifier.weight(1f).fillMaxHeight(),
                     labelId = R.string.list_supervisors
                 )
+
             }
 
         }

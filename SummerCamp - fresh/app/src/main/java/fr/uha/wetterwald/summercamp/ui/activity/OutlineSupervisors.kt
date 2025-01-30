@@ -27,14 +27,19 @@ fun OutlineSupervisorsField(
     onRemoveMember : (Supervisor) -> Unit,
     modifier: Modifier,
     labelId: Int?,
-    errorId: Int?
+    errorId: Int?,
+    activityPeriod: String,
 ) {
     val showDialog =  remember { mutableStateOf(false) }
 
     if (showDialog.value) {
-        SupervisorPicker (
-            titleId = R.string.select_supervisor,
-        ) { showDialog.value = false; if (it != null) onAddMember(it) }
+        if (showDialog.value) {
+            SupervisorPicker (
+                titleId = R.string.select_supervisor,
+                activityPeriod = activityPeriod, // Ajout de l'heure de l'activité
+                onSelect = { showDialog.value = false; if (it != null) onAddMember(it) }
+            )
+        }
     }
 
     OutlinedDecorator (
@@ -72,15 +77,17 @@ fun OutlineSupervisorsField(
 }
 
 @Composable
-fun OutlinedSupervisorsFieldWrapper (
-    field : FieldWrapper<List<Supervisor>>,
-    onAddMember : (Supervisor) -> Unit,
-    onRemoveMember : (Supervisor) -> Unit,
-    modifier : Modifier = Modifier,
-    @StringRes labelId : Int? = null,
+fun OutlinedSupervisorsFieldWrapper(
+    field: FieldWrapper<List<Supervisor>>,
+    activityPeriod: FieldWrapper<String>, // Ajout de la période d'activité
+    onAddMember: (Supervisor) -> Unit,
+    onRemoveMember: (Supervisor) -> Unit,
+    modifier: Modifier = Modifier,
+    @StringRes labelId: Int? = null,
 ) {
     OutlineSupervisorsField(
         value = field.value ?: emptyList(),
+        activityPeriod = activityPeriod.value ?: "",
         onAddMember = onAddMember,
         onRemoveMember = onRemoveMember,
         modifier = modifier,
@@ -88,4 +95,3 @@ fun OutlinedSupervisorsFieldWrapper (
         errorId = field.errorId,
     )
 }
-

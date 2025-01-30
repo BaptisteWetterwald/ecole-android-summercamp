@@ -119,5 +119,4 @@ class ActivityViewModel @Inject constructor (
         val id : Long = repository.create(activity)
         _id.value = id
     }
-
 }
