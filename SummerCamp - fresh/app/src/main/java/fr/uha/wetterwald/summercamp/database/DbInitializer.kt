@@ -69,7 +69,7 @@ class DbInitializer(private val db: AppDatabase) {
         val name = randomNameFromSpecialty(randomSpecialty())
         return Activity(
             activityId = id,
-            name = randomNameFromSpecialty(randomSpecialty()),
+            name = name,
             description = "This is a $name activity",
             location = randomLocation(),
             maxParticipants = 3 + Random().nextInt(18),

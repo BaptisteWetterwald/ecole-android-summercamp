@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import fr.uha.hassenforder.android.R
 import fr.uha.hassenforder.android.ui.field.FieldWrapper
 import fr.uha.hassenforder.android.ui.field.OutlinedDecorator
@@ -25,11 +26,13 @@ fun OutlineChildrenField(
     value: List<Child>,
     onAddMember : (Child) -> Unit,
     onRemoveMember : (Child) -> Unit,
+    maxParticipants: Int,
     modifier: Modifier,
     labelId: Int?,
     errorId: Int?
 ) {
     val showDialog =  remember { mutableStateOf(false) }
+    val isFull = value.size >= maxParticipants
 
     if (showDialog.value) {
         ChildPicker (
@@ -45,7 +48,12 @@ fun OutlineChildrenField(
         Scaffold (
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = { showDialog.value = true },
+                    onClick = { if (!isFull) showDialog.value = true },
+                    modifier = Modifier
+                        .alpha(if (isFull) 0.3f else 1f) // Réduit l'opacité si désactivé
+                        .clickable(enabled = !isFull) {
+                            if (!isFull) showDialog.value = true
+                        }
                 ) {
                     Icon(Icons.Filled.Add, contentDescription = "add")
                 }
@@ -76,6 +84,7 @@ fun OutlinedChildrenFieldWrapper (
     field : FieldWrapper<List<Child>>,
     onAddMember : (Child) -> Unit,
     onRemoveMember : (Child) -> Unit,
+    maxParticipants: FieldWrapper<Int>,
     modifier : Modifier = Modifier,
     @StringRes labelId : Int? = null,
 ) {
@@ -86,6 +95,7 @@ fun OutlinedChildrenFieldWrapper (
         modifier = modifier,
         labelId = labelId,
         errorId = field.errorId,
+        maxParticipants = maxParticipants.value ?: Int.MAX_VALUE
     )
 }
 

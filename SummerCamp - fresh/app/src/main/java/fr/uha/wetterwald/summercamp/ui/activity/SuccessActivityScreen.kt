@@ -79,7 +79,8 @@ fun SuccessActivityScreen(
                     onAddMember = { send(ActivityViewModel.UIEvent.AddChild(it)) },
                     onRemoveMember = { send(ActivityViewModel.UIEvent.RemoveChild(it)) },
                     modifier = Modifier.weight(1f).fillMaxHeight(),
-                    labelId = R.string.list_children
+                    labelId = R.string.list_children,
+                    maxParticipants = activity.maxParticipants
                 )
 
                 OutlinedSupervisorsFieldWrapper(
